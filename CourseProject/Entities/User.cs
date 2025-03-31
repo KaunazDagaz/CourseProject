@@ -8,8 +8,6 @@ namespace CourseProject.Entities
         [Required]
         public required string Name { get; set; }
         [Required]
-        public bool IsAdmin { get; set; } = false;
-        [Required]
         public bool IsBlocked { get; set; } = false;
         [Required]
         public DateTime CreatedAt { get; set; }
