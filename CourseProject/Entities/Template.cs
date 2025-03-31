@@ -15,7 +15,7 @@ namespace CourseProject.Entities
         public required string Topic { get; set; }
         public string? Image { get; set; }
         [Required]
-        public bool IsPublic { get; set; }
+        public bool IsPublic { get; set; } = true;
         [Required]
         public DateTime CreatedAt { get; set; }
         [Required]
