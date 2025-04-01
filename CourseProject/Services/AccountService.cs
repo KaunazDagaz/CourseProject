@@ -11,18 +11,21 @@ namespace CourseProject.Services
         private readonly IMapper mapper;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public AccountService(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountService(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
             this.mapper = mapper;
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.roleManager = roleManager;
         }
 
         public async Task<IdentityResult> RegisterUserAsync(RegisterViewModel model)
         {
             var user = mapper.Map<User>(model);
             var result = await userManager.CreateAsync(user, model.Password);
+            await AddAdminRole(user);
             return result;
         }
 
@@ -35,6 +38,18 @@ namespace CourseProject.Services
                 isPersistent: false,
                 lockoutOnFailure: true);
             return (result, user);
+        }
+
+        private async Task AddAdminRole(User user)
+        {
+            var r = await roleManager.FindByNameAsync("Administrator");
+            if (r == null)
+            {
+                var role = new IdentityRole();
+                role.Name = "Administrator";
+                await roleManager.CreateAsync(role);
+                await userManager.AddToRoleAsync(user, "Administrator");
+            }
         }
     }
 }

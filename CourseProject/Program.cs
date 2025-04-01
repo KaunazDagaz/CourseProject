@@ -4,6 +4,7 @@ using CourseProject.Services.IServices;
 using CourseProject.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using static CourseProject.MappingProfile;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<UserRoleResolver>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
