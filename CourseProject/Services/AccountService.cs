@@ -32,6 +32,10 @@ namespace CourseProject.Services
         public async Task<(SignInResult Result, User? User)> LoginUserAsync(LoginViewModel model)
         {
             var user = await userManager.FindByEmailAsync(model.Email);
+            if (user != null && user.IsBlocked)
+            {
+                return (SignInResult.Failed, user);
+            }
             var result = await signInManager.PasswordSignInAsync(
                 model.Email,
                 model.Password,
