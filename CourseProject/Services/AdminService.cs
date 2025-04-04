@@ -24,13 +24,43 @@ namespace CourseProject.Services
             this.mapper = mapper;
         }
 
-        public async Task<List<UserViewModel>> GetUsers()
+        public async Task<List<UserViewModel>> GetUsersAsync()
         {
             var users = await dbContext.Users
                 .OrderByDescending(u => u.CreatedAt)
                 .ToListAsync();
             var userViewModels = mapper.Map<List<UserViewModel>>(users);
             return userViewModels;
+        }
+
+        public async Task UpdateUserStatusAsync(List<string> userIds, bool status)
+        {
+            await dbContext.Users
+                .Where(u => userIds.Contains(u.Id))
+                .ExecuteUpdateAsync(s => s.SetProperty(u => u.IsBlocked, status));
+        }
+
+        public async Task RemoveUserAsync(List<string> userIds)
+        {
+            await dbContext.Users
+                .Where(u => userIds.Contains(u.Id))
+                .ExecuteDeleteAsync();
+        }
+
+        public async Task UpdateUserRoleAsync(List<string> userIds, string role)
+        {
+            var users = await userManager.Users
+                .Where(u => userIds.Contains(u.Id))
+                .ToListAsync();
+            foreach (var user in users)
+            {
+                var currentRoles = await userManager.GetRolesAsync(user);
+                await userManager.RemoveFromRolesAsync(user, currentRoles);
+                if (!string.IsNullOrEmpty(role))
+                {
+                    await userManager.AddToRoleAsync(user, role);
+                }
+            }
         }
 
         public async Task<bool> IsCurrentUserValidAsync()
