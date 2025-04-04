@@ -36,6 +36,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IUserValidationService, UserValidationService>();
 builder.Services.AddScoped<UserRoleResolver>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
