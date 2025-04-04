@@ -10,10 +10,12 @@ namespace CourseProject.Controllers
     public class AdminController : Controller
     {
         private readonly IAdminService adminService;
+        private readonly IUserValidationService userValidationService;
 
-        public AdminController(IAdminService adminService)
+        public AdminController(IAdminService adminService, IUserValidationService userValidationService)
         {
             this.adminService = adminService;
+            this.userValidationService = userValidationService;
         }
 
         [HttpGet]
@@ -88,7 +90,7 @@ namespace CourseProject.Controllers
 
         private async Task<IActionResult> HandleUserActionAsync(Func<Task<IActionResult>> action)
         {
-            if (!await adminService.IsCurrentUserValidAsync())
+            if (!await userValidationService.IsCurrentUserAdminAsync())
             {
                 await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
                 return Json(new { success = false, redirectUrl = Url.Action("Login", "Account") });
@@ -98,7 +100,7 @@ namespace CourseProject.Controllers
 
         private async Task<IActionResult> HandleUserInclusionCheckAsync(List<string> userIds)
         {
-            if (await adminService.IsCurrentUserIncludedAsync(userIds))
+            if (await userValidationService.IsCurrentUserIncludedAsync(userIds))
             {
                 await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
                 return Json(new { success = false, redirectUrl = Url.Action("Login", "Account") });
