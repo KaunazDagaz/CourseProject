@@ -20,7 +20,7 @@
 
     function handleUserAction(action, userIds) {
         if (userIds.length === 0) {
-            alert("Please select at least one user.");
+            showMessage("Please select at least one user.");
             return;
         }
         const buttons = $("#blockBtn, #unblockBtn, #deleteBtn, #addAdminBtn, #removeAdminBtn");
@@ -36,13 +36,14 @@
             success: function (response) {
                 if (response.success) {
                     updateTable();
+                    showMessage("Operation completed successfully", false)
                 } else if (response.redirectUrl) {
                     window.location.href = response.redirectUrl;
                 }
             },
             error: function () {
                 buttons.prop('disabled', false);
-                alert("An error occurred. Please try again.");
+                showMessage("An error occurred. Please try again.");
             }
         });
     }
