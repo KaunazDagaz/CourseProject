@@ -4,6 +4,14 @@
 }
 <div class="container mt-5">
     <h2 class="text-center mb-4">User Management</h2>
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
+        <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div id="messageBox" class="toast-body"></div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
     <form id="userForm">
         @Html.AntiForgeryToken()
         <div class="mb-3">
@@ -38,4 +46,5 @@
 </div>
 @section Scripts {
     <script src="~/js/checkbox.js" asp-append-version="true"></script>
+    <script src="~/js/message.js" asp-append-version="true"></script>
 }
