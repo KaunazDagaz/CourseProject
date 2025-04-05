@@ -48,7 +48,7 @@ namespace CourseProject.Services
             var users = await userManager.Users
                 .Where(u => userIds.Contains(u.Id))
                 .ToListAsync();
-            foreach (var user in users)
+            await Task.WhenAll(users.Select(async user =>
             {
                 var currentRoles = await userManager.GetRolesAsync(user);
                 await userManager.RemoveFromRolesAsync(user, currentRoles);
@@ -56,7 +56,7 @@ namespace CourseProject.Services
                 {
                     await userManager.AddToRoleAsync(user, role);
                 }
-            }
+            }));
         }
     }
 }
