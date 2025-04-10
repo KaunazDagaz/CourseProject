@@ -9,7 +9,7 @@ namespace CourseProject.Entities
         [Required]
         public required string AuthorId { get; set; }
         [Required]
-        public Guid QuestionId { get; set; }
+        public Guid FormId { get; set; }
         [Required]
         public required string Content { get; set; }
     }
