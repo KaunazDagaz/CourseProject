@@ -8,6 +8,7 @@ namespace CourseProject.Entities
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Template> Templates { get; set; }
+        public DbSet<Form> Forms { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Comment> Comments { get; set; }
@@ -25,16 +26,17 @@ namespace CourseProject.Entities
                 .HasForeignKey(t => t.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Question>()
-               .HasOne<Template>()
-               .WithMany()
-               .HasForeignKey(q => q.TemplateId)
-               .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Question>()
-                .HasOne<User>()
+            modelBuilder.Entity<Form>()
+                .HasOne<Template>()
                 .WithMany()
-                .HasForeignKey(q => q.AuthorId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(f => f.TemplateId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Question>()
+               .HasOne<Form>()
+               .WithOne()
+               .HasForeignKey<Question>(q => q.FormId)
+               .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Answer>()
                 .HasOne<User>()
@@ -42,9 +44,9 @@ namespace CourseProject.Entities
                 .HasForeignKey(a => a.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Answer>()
-                .HasOne<Question>()
+                .HasOne<Form>()
                 .WithMany()
-                .HasForeignKey(a => a.QuestionId)
+                .HasForeignKey(a => a.FormId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comment>()
