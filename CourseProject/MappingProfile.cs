@@ -15,6 +15,10 @@ namespace CourseProject
             CreateMap<LoginViewModel, User>();
             CreateMap<User, UserViewModel>()
                 .ForMember(dest => dest.Role, opt => opt.MapFrom<UserRoleResolver>());
+            CreateMap<Template, TemplateGalleryViewModel>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom<AuthorNameResolver>());
+            CreateMap<Template, TemplateTableViewModel>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom<AuthorNameResolver>());
         }
 
         public class UserRoleResolver : IValueResolver<User, UserViewModel, string>
@@ -30,6 +34,32 @@ namespace CourseProject
             {
                 var roles = userManager.GetRolesAsync(source).Result;
                 return roles.FirstOrDefault() ?? string.Empty;
+            }
+        }
+
+        public class AuthorNameResolver : IValueResolver<Template, TemplateGalleryViewModel, string>, IValueResolver<Template, TemplateTableViewModel, string>
+        {
+            private readonly UserManager<User> userManager;
+
+            public AuthorNameResolver(UserManager<User> userManager)
+            {
+                this.userManager = userManager;
+            }
+
+            public string Resolve(Template source, TemplateGalleryViewModel destination, string destMember, ResolutionContext context)
+            {
+                return ResolveAuthorName(source.AuthorId);
+            }
+
+            public string Resolve(Template source, TemplateTableViewModel destination, string destMember, ResolutionContext context)
+            {
+                return ResolveAuthorName(source.AuthorId);
+            }
+
+            private string ResolveAuthorName(string authorId)
+            {
+                var user = userManager.FindByIdAsync(authorId).Result;
+                return user?.Name ?? "Unknown";
             }
         }
     }
