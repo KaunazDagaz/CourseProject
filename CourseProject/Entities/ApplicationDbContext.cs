@@ -15,6 +15,7 @@ namespace CourseProject.Entities
         public DbSet<Like> Likes { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<TemplateTag> TemplateTags { get; set; }
+        public DbSet<TemplateStats> TemplateStats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -82,6 +83,12 @@ namespace CourseProject.Entities
                 .HasOne<Tag>()
                 .WithMany()
                 .HasForeignKey(tt => tt.TagId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TemplateStats>()
+                .HasOne<Template>()
+                .WithOne()
+                .HasForeignKey<TemplateStats>(ts => ts.TemplateId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

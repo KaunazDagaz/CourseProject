@@ -38,6 +38,9 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IUserValidationService, UserValidationService>();
 builder.Services.AddScoped<UserRoleResolver>();
+builder.Services.AddScoped<AuthorNameResolver>();
+builder.Services.AddScoped<ITemplateService, TemplateService>();
+builder.Services.AddScoped<ITagService, TagService>();
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

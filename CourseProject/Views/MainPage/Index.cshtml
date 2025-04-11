@@ -1,0 +1,114 @@
+﻿@model CourseProject.Models.MainPageViewModel
+@{
+    ViewData["Title"] = "Templates Home";
+}
+
+<div class="container mt-4">
+    <h1 class="display-4 mb-4">Welcome to Template Gallery</h1>
+
+    <section class="mb-5">
+        <h2 class="mb-3">Latest Templates</h2>
+        <div class="row">
+            @if (Model.LatestTemplates != null && Model.LatestTemplates.Any())
+            {
+                foreach (var template in Model.LatestTemplates)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            @if (!string.IsNullOrEmpty(template.Image))
+                            {
+                                <img src="@template.Image" class="card-img-top" alt="@template.Title">
+                            }
+                            else
+                            {
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <i class="bi bi-file-earmark-text" style="font-size: 3rem;"></i>
+                                </div>
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title">@template.Title</h5>
+                                <p class="card-text text-muted">By @template.AuthorName</p>
+                                @if (!string.IsNullOrEmpty(template.Description))
+                                {
+                                    <p class="card-text">@(template.Description?.Length > 100 ? template.Description.Substring(0, 97) + "..." : template.Description)</p>
+                                }
+                                <a asp-controller="Template" asp-action="Details" asp-route-id="@template.Id" class="btn btn-primary">View Template</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        No templates available yet.
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <h2 class="mb-3">Most Popular Templates</h2>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Created</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.PopularTemplates != null && Model.PopularTemplates.Any())
+                    {
+                        foreach (var template in Model.PopularTemplates.Take(5))
+                        {
+                            <tr>
+                                <td>@template.Title</td>
+                                <td>@template.AuthorName</td>
+                                <td>@template.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    <a asp-controller="Template" asp-action="Details" asp-route-id="@template.Id" class="btn btn-sm btn-outline-primary">View</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center">No popular templates available.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="mb-5">
+        <h2 class="mb-3">Tags</h2>
+        <div class="tag-cloud p-3 border rounded">
+            @if (Model.Tags != null && Model.Tags.Any())
+            {
+                foreach (var tag in Model.Tags)
+                {
+                    <a asp-controller="Template" asp-action="Search" asp-route-tag="@tag.Name"
+                       class="badge rounded-pill text-bg-primary text-decoration-none m-1 p-2"
+                       style="font-size: 1rem;">
+                        @tag.Name
+                    </a>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No tags available.</p>
+            }
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
