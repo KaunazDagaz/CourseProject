@@ -1,0 +1,23 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var currentLang = Context.Request.Query["lang"].ToString() ?? "en";
+    var selectedEN = currentLang == "en" ? "selected" : null;
+    var selectedBE = currentLang == "be" ? "selected" : null;
+}
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+        <div class="col-12 col-md-6 col-lg-2">
+            <div class="d-flex gap-2">
+                <form id="cultureForm" class="flex-grow-1" onsubmit="return false;">
+                    <select id="cultureSelect" class="form-select">
+                        <option value="en" selected="@selectedEN">English</option>
+                        <option value="be" selected="@selectedBE">Беларуская</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script src="~/js/languageHandler.js"></script>

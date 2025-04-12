@@ -4,31 +4,46 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-header">
-                <h2 class="text-center">Login</h2>
-            </div>
-            <div class="card-body">
-                <form asp-action="Login" method="post">
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label">Username (Email)</label>
-                        <input asp-for="Email" class="form-control" type="email" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label">Password</label>
-                        <input asp-for="Password" class="form-control" type="password" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
-                    </div>
-                </form>
-            </div>
-            <div class="card-footer text-center">
-                <p>Don't have an account? <a asp-action="Register" asp-controller="Account">Register</a></p>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow rounded-3">
+                <div class="card-header bg-primary text-white py-3">
+                    <h2 class="text-center mb-0" data-i18n="Login">Login</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Login" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label" data-i18n="Email">Username (Email)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light" style="width: 45px; justify-content: center;">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input asp-for="Email" class="form-control" type="email" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label" data-i18n="Password">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light" style="width: 45px; justify-content: center;">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input asp-for="Password" class="form-control" type="password" />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary w-100" data-i18n="LoginButton">Login</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer bg-light py-3 text-center">
+                    <p class="mb-0">
+                        <span data-i18n="NewAccount">Don't have an account?</span>
+                        <a asp-action="Register" asp-controller="Account" data-i18n="RegisterButton">Register</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

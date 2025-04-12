@@ -16,7 +16,7 @@ namespace CourseProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult MainPage()
         {
             var viewModel = new MainPageViewModel
             {

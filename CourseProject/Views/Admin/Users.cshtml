@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CourseProject.Models.UserViewModel>
+
+@{
+    ViewData["Title"] = "User Management";
+}
+
+<div class="container py-5">
+    <div class="card shadow rounded-3">
+        <div class="card-header bg-primary text-white py-3">
+            <h2 class="text-center mb-0" data-i18n="UserManagement">User Management</h2>
+        </div>
+        <div class="card-body p-4">
+            <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
+                <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div id="messageBox" class="toast-body"></div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+            <form id="userForm">
+                @Html.AntiForgeryToken()
+                <div class="mb-4">
+                    <button class="btn btn-outline-secondary d-lg-none w-100 mb-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#userActionsCollapse" aria-expanded="false" aria-controls="userActionsCollapse">
+                        <i class="fas fa-sliders-h me-2"></i>
+                        <span data-i18n="UserActions">User Actions</span>
+                    </button>
+                    <div class="collapse d-lg-block" id="userActionsCollapse">
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" id="unblockBtn" class="btn btn-success"
+                                    data-i18n-title="UnblockTooltip" title="Unblock selected users">
+                                <i class="fas fa-unlock"></i>
+                            </button>
+                            <button type="button" id="blockBtn" class="btn btn-danger"
+                                    data-i18n-title="BlockTooltip" title="Block selected users">
+                                <i class="fas fa-lock me-2"></i>
+                                <span data-i18n="BlockButton">Block</span>
+                            </button>
+                            <button type="button" id="addAdminBtn" class="btn btn-primary"
+                                    data-i18n-title="AddAdminTooltip" title="Add administrator role to selected users">
+                                <i class="fas fa-user-shield me-2"></i>
+                                <span data-i18n="AddAdminButton">Make Admin</span>
+                            </button>
+                            <button type="button" id="removeAdminBtn" class="btn btn-secondary"
+                                    data-i18n-title="RemoveAdminTooltip" title="Remove administrator role from selected users">
+                                <i class="fas fa-user me-2"></i>
+                                <span data-i18n="RemoveAdminButton">Remove Admin</span>
+                            </button>
+                            <button type="button" id="deleteBtn" class="btn btn-danger"
+                                    data-i18n-title="DeleteTooltip" title="Delete selected users">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive rounded" id="tableContainer">
+                    @await Html.PartialAsync("_UsersTable", Model)
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/checkbox.js" asp-append-version="true"></script>
+    <script src="~/js/message.js" asp-append-version="true"></script>
+    <partial name="_ValidationScriptsPartial" />
+}

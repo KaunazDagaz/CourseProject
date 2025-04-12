@@ -4,14 +4,14 @@
 }
 
 <div class="container mt-4">
-    <h1 class="display-4 mb-4">Welcome to Template Gallery</h1>
+    <h1 class="display-4 mb-4" data-i18n="Welcome">Welcome!</h1>
 
     <section class="mb-5">
-        <h2 class="mb-3">Latest Templates</h2>
+        <h2 class="mb-3" data-i18n="LatestsTitle">Latest Templates</h2>
         <div class="row">
             @if (Model.LatestTemplates != null && Model.LatestTemplates.Any())
             {
-                foreach (var template in Model.LatestTemplates)
+                foreach (var template in Model.LatestTemplates.Take(6))
                 {
                     <div class="col-md-4 mb-4">
                         <div class="card h-100">
@@ -32,7 +32,6 @@
                                 {
                                     <p class="card-text">@(template.Description?.Length > 100 ? template.Description.Substring(0, 97) + "..." : template.Description)</p>
                                 }
-                                <a asp-controller="Template" asp-action="Details" asp-route-id="@template.Id" class="btn btn-primary">View Template</a>
                             </div>
                         </div>
                     </div>
@@ -41,8 +40,8 @@
             else
             {
                 <div class="col-12">
-                    <div class="alert alert-info">
-                        No templates available yet.
+                    <div class="alert alert-info" data-i18n="NoTemplates">
+                        No templates available.
                     </div>
                 </div>
             }
@@ -50,36 +49,32 @@
     </section>
 
     <section class="mb-5">
-        <h2 class="mb-3">Most Popular Templates</h2>
+        <h2 class="mb-3" data-i18n="PopularTitle">Most Popular Templates</h2>
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Author</th>
-                        <th>Created</th>
-                        <th>Action</th>
+                        <th data-i18n="Title">Title</th>
+                        <th data-i18n="Author">Author</th>
+                        <th data-i18n="Created">Created</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (Model.PopularTemplates != null && Model.PopularTemplates.Any())
                     {
-                        foreach (var template in Model.PopularTemplates.Take(5))
+                        foreach (var template in Model.PopularTemplates.Take(6))
                         {
                             <tr>
                                 <td>@template.Title</td>
                                 <td>@template.AuthorName</td>
                                 <td>@template.CreatedAt.ToString("MMM dd, yyyy")</td>
-                                <td>
-                                    <a asp-controller="Template" asp-action="Details" asp-route-id="@template.Id" class="btn btn-sm btn-outline-primary">View</a>
-                                </td>
                             </tr>
                         }
                     }
                     else
                     {
                         <tr>
-                            <td colspan="4" class="text-center">No popular templates available.</td>
+                            <td colspan="4" class="text-center" data-i18n="NoTemplates">No templates available.</td>
                         </tr>
                     }
                 </tbody>
@@ -88,7 +83,7 @@
     </section>
 
     <section class="mb-5">
-        <h2 class="mb-3">Tags</h2>
+        <h2 class="mb-3" data-i18n="TagsTitle">Tags</h2>
         <div class="tag-cloud p-3 border rounded">
             @if (Model.Tags != null && Model.Tags.Any())
             {
@@ -103,7 +98,7 @@
             }
             else
             {
-                <p class="text-muted">No tags available.</p>
+                <p class="text-muted" data-i18n="NoTags">No tags available.</p>
             }
         </div>
     </section>
