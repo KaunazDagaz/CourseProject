@@ -52,7 +52,7 @@ namespace CourseProject.Controllers
                 var (result, user) = await accountService.LoginUserAsync(model);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "MainPage");
+                    return RedirectToAction("MainPage", "MainPage");
                 }
                 GetLoginErrorMessage(user);
             }
