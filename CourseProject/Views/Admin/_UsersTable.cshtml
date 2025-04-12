@@ -1,27 +1,56 @@
 ﻿@model IEnumerable<CourseProject.Models.UserViewModel>
 
-<table class="table table-hover table-bordered text-center align-middle">
-    <thead class="bg-dark text-white">
-        <tr>
-            <th><input type="checkbox" id="selectAll" class="form-check-input" title="Select/deselect all users" /></th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th class="w-25">Status</th>
-            <th class="w-25">Created</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+<div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="bg-light">
             <tr>
-                <td><input type="checkbox" class="form-check-input user-checkbox" value="@user.Id" /></td>
-                <td>@user.Name</td>
-                <td>@user.Email</td>
-                <td>@user.Role</td>
-                <td>@(user.IsBlocked ? "Blocked" : "Active")</td>
-                <td>@user.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <th class="ps-4">
+                    <div class="form-check">
+                        <input type="checkbox" id="selectAll" class="form-check-input"
+                               data-i18n-title="SelectAll" title="Select/deselect all users" />
+                    </div>
+                </th>
+                <th data-i18n="Name">Name</th>
+                <th data-i18n="TableEmail">Email</th>
+                <th data-i18n="Role">Role</th>
+                <th data-i18n="Status">Status</th>
+                <th data-i18n="Created">Created</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td class="ps-4">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input user-checkbox" value="@user.Id" />
+                        </div>
+                    </td>
+                    <td>
+                        <span>@user.Name</span>
+                    </td>
+                    <td>@user.Email</td>
+                    <td>
+                        <span class="badge bg-primary rounded-pill" data-i18n="@user.Role">@user.Role</span>
+                    </td>
+                    <td>
+                        @if (user.IsBlocked)
+                        {
+                            <span class="badge bg-danger rounded-pill" data-i18n="Blocked">Blocked</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success rounded-pill" data-i18n="Active">Active</span>
+                        }
+                    </td>
+                    <td>
+                        <span class="text-muted">
+                            <i class="far fa-clock me-1"></i>
+                            @user.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

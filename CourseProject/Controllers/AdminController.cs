@@ -19,7 +19,7 @@ namespace CourseProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Users()
         {
             return await HandleUserActionAsync(async () =>
             {

@@ -4,12 +4,12 @@ namespace CourseProject.Models
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid email format. Format should be example@example")]
+        [Required(ErrorMessage = "Error.EmailRequired")]
+        [EmailAddress(ErrorMessage = "Error.EmailInvalid")]
         public required string Email { get; set; }
 
-        [Required(ErrorMessage = "Password is required")]
-        [MinLength(1, ErrorMessage = "Password cannot be empty")]
+        [Required(ErrorMessage = "Error.PasswordRequired")]
+        [MinLength(1, ErrorMessage = "Error.PasswordEmpty")]
         public required string Password { get; set; }
     }
 }

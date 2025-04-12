@@ -63,15 +63,15 @@ namespace CourseProject.Controllers
         {
             if (user == null)
             {
-                ModelState.AddModelError("Email", "Such user does not exist.");
+                ModelState.AddModelError("Email", "Error.UserNotExist");
                 return;
             }
             if (user.IsBlocked)
             {
-                ModelState.AddModelError("Email", "Your account has been blocked.");
+                ModelState.AddModelError("Email", "Error.UserIsBlocked");
                 return;
             }
-            ModelState.AddModelError("Password", "Something went wrong. Verify your password or try again later.");
+            ModelState.AddModelError("Password", "Error.SomeError");
         }
     }
 }
