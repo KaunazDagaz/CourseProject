@@ -34,31 +34,12 @@ namespace CourseProject.Controllers
                     var form = formService.CreateForm(templateId, formModel);
                     await formService.SaveFormAsync(form);
                     var question = questionService.CreateQuestion(formModel.Question, form.Id);
-                    await questionService.SaveQuestionAsync(question);
+                    await questionService.SaveQuestionAsync(question, formModel.Question.CheckboxOptions);
                 }
                 return RedirectToAction("MainPage", "MainPage");
             }
             ViewBag.TemplateId = templateId;
             return View(forms);
-        }
-
-        [HttpGet]
-        public IActionResult CreateQuestion(Guid formId)
-        {
-            ViewBag.FormId = formId;
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> CreateQuestion(Guid formId, QuestionCreateViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var question = questionService.CreateQuestion(model, formId);
-                await questionService.SaveQuestionAsync(question);
-            }
-            ViewBag.FormId = formId;
-            return View(model);
         }
     }
 }

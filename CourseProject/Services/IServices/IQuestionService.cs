@@ -7,7 +7,7 @@ namespace CourseProject.Services.IServices
     {
         Task<QuestionViewModel> GetQuestionAsync(Guid formId);
         Question CreateQuestion(QuestionCreateViewModel questionViewModel, Guid formId);
-        Task SaveQuestionAsync(Question question);
+        Task SaveQuestionAsync(Question question, List<string>? checkboxOptions);
         Task UpdateQuestionAsync(QuestionViewModel question);
     }
 }

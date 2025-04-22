@@ -23,12 +23,33 @@
                 field.classList.remove('is-invalid');
             }
         });
-
         if (!isValid) {
             e.preventDefault();
             console.error('Invalid fields:', invalidFields);
             showMessage('Please fill in all required fields');
             return;
+        }
+    });
+
+    document.getElementById('formsList').addEventListener('change', function (e) {
+        if (e.target && e.target.classList.contains('question-type-select')) {
+            handleQuestionTypeChange(e.target);
+        }
+    });
+
+    document.getElementById('formsList').addEventListener('click', function (e) {
+        if (e.target && e.target.closest('.add-checkbox-option')) {
+            const button = e.target.closest('.add-checkbox-option');
+            addCheckboxOption(button.closest('.checkbox-settings').querySelector('.checkbox-options-container'),
+                button.closest('.form-container'));
+        }
+        if (e.target && e.target.closest('.remove-checkbox-option')) {
+            const button = e.target.closest('.remove-checkbox-option');
+            const container = button.closest('.checkbox-options-container');
+            if (container.children.length > 1) {
+                button.closest('.checkbox-option-row').remove();
+                updateCheckboxOptionIndices(container);
+            }
         }
     });
 
@@ -55,6 +76,54 @@
         });
     }
 
+    function updateCheckboxOptionIndices(container) {
+        const formIndex = container.closest('.form-container').querySelector('[name$=".Position"]').name.match(/\[(\d+)\]/)[1];
+        const optionInputs = container.querySelectorAll('input[name^="[' + formIndex + '].Question.CheckboxOptions"]');
+        optionInputs.forEach((input, index) => {
+            input.name = `[${formIndex}].Question.CheckboxOptions[${index}]`;
+        });
+    }
+
+    function handleQuestionTypeChange(selectElement) {
+        const formContainer = selectElement.closest('.form-container');
+        const selectedType = selectElement.value;
+        const typeSettings = formContainer.querySelectorAll('.type-settings');
+        typeSettings.forEach(setting => {
+            setting.classList.add('d-none');
+        });
+        switch (selectedType) {
+            case 'SingleLine':
+                formContainer.querySelector('.singleline-settings').classList.remove('d-none');
+                break;
+            case 'Integer':
+                formContainer.querySelector('.integer-settings').classList.remove('d-none');
+                break;
+            case 'Checkbox':
+                const checkboxSettings = formContainer.querySelector('.checkbox-settings');
+                checkboxSettings.classList.remove('d-none');
+                const optionsContainer = checkboxSettings.querySelector('.checkbox-options-container');
+                if (optionsContainer.children.length === 0) {
+                    addCheckboxOption(optionsContainer, formContainer);
+                }
+                break;
+        }
+    }
+
+    function addCheckboxOption(container, formContainer) {
+        const formIndex = formContainer.querySelector('[name$=".Position"]').name.match(/\[(\d+)\]/)[1];
+        const optionIndex = container.children.length;
+        const optionRow = document.createElement('div');
+        optionRow.className = 'checkbox-option-row input-group mb-2';
+        optionRow.innerHTML = `
+            <input type="text" name="[${formIndex}].Question.CheckboxOptions[${optionIndex}]" 
+                class="form-control" placeholder="Option text" required />
+            <button type="button" class="btn btn-outline-danger remove-checkbox-option">
+               <i class="fas fa-trash-alt"></i>
+            </button>
+        `;
+        container.appendChild(optionRow);
+    }
+
     function addNewForm() {
         const formIndex = formCount;
         formCount++;
@@ -70,17 +139,15 @@
                 element.value = formIndex;
             }
         });
-
         newForm.querySelector('.remove-form-btn').addEventListener('click', function () {
             if (formCount > 1) {
                 this.closest('.form-container').remove();
                 formCount--;
                 updatePositions();
             } else {
-                showMessage('You must have at least one form');
+                alert('You must have at least one form');
             }
         });
-
         document.getElementById('formsList').appendChild(newForm);
         const dragHandle = document.createElement('div');
         dragHandle.className = 'drag-handle me-2';

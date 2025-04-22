@@ -15,6 +15,9 @@ namespace CourseProject.Entities
         public QuestionType Type { get; set; }
         [Required]
         public bool ShowInTable { get; set; }
+        public int? MaxLength { get; set; }
+        public int? MinValue { get; set; }
+        public int? MaxValue { get; set; }
     }
 
     public enum QuestionType

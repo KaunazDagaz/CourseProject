@@ -11,5 +11,9 @@ namespace CourseProject.Models
         [Required(ErrorMessage = "Question type is required")]
         public QuestionType Type { get; set; }
         public bool ShowInTable { get; set; }
+        public int? MaxLength { get; set; }
+        public int? MinValue { get; set; }
+        public int? MaxValue { get; set; }
+        public List<string> CheckboxOptions { get; set; } = new List<string>();
     }
 }
