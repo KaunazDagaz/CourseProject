@@ -38,7 +38,7 @@ namespace CourseProject.Services
             return currentUser != null && userIds.Contains(currentUser.Id);
         }
 
-        private async Task<User?> GetCurrentUserAsync()
+        public async Task<User?> GetCurrentUserAsync()
         {
             var userId = httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)

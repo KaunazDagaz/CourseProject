@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using static CourseProject.MappingProfile;
 using CourseProject.Errors;
+using CloudinaryDotNet;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,17 @@ builder.Services.AddScoped<UserRoleResolver>();
 builder.Services.AddScoped<AuthorNameResolver>();
 builder.Services.AddScoped<ITemplateService, TemplateService>();
 builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<IFormService, FormService>();
+builder.Services.AddScoped<IQuestionService, QuestionService>();
+
+builder.Services.AddSingleton(provider => {
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var cloudinaryAccount = new Account(
+        configuration["Cloudinary:CloudName"],
+        configuration["Cloudinary:ApiKey"],
+        configuration["Cloudinary:ApiSecret"]);
+    return new Cloudinary(cloudinaryAccount);
+});
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
