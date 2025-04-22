@@ -31,10 +31,26 @@ namespace CourseProject.Services
             return question;
         }
 
-        public async Task SaveQuestionAsync(Question question)
+        public async Task SaveQuestionAsync(Question question, List<string>? checkboxOptions)
         {
             dbContext.Questions.Add(question);
             await dbContext.SaveChangesAsync();
+            if (question.Type == QuestionType.Checkbox && checkboxOptions != null && checkboxOptions.Any())
+            {
+                int position = 0;
+                foreach (var optionText in checkboxOptions)
+                {
+                    var option = new QuestionOption
+                    {
+                        Id = Guid.NewGuid(),
+                        QuestionId = question.Id,
+                        Text = optionText,
+                        Position = position++
+                    };
+                    dbContext.QuestionOptions.Add(option);
+                }
+                await dbContext.SaveChangesAsync();
+            }
         }
 
         public async Task UpdateQuestionAsync(QuestionViewModel questionViewModel)
