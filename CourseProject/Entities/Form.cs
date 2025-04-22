@@ -8,5 +8,7 @@ namespace CourseProject.Entities
         public Guid Id { get; set; }
         [Required]
         public Guid TemplateId { get; set; }
+        [Required]
+        public int Position { get; set; }
     }
 }

@@ -19,6 +19,13 @@ namespace CourseProject
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom<AuthorNameResolver>());
             CreateMap<Template, TemplateTableViewModel>()
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom<AuthorNameResolver>());
+            CreateMap<TemplateCreateViewModel, Template>();
+            CreateMap<QuestionCreateViewModel, Question>();
+            CreateMap<Question, QuestionViewModel>().ReverseMap();
+            CreateMap<FormWithQuestionsViewModel, Form>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.Position))
+                .ForMember(dest => dest.TemplateId, opt => opt.Ignore());
         }
 
         public class UserRoleResolver : IValueResolver<User, UserViewModel, string>
