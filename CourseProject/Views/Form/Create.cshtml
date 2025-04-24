@@ -6,17 +6,18 @@
 }
 
 <div class="container mt-4">
-    <h2 class="mb-3">Create Forms with Questions</h2>
-    <p class="text-muted">Each form contains a single question. Drag forms to reorder them.</p>
+    <h2 class="mb-3" data-i18n="CreateForm">Create Forms with Questions</h2>
     <form id="formsContainer" method="post" asp-action="Create" asp-route-templateId="@templateId">
         <div id="formsList">
         </div>
         <div class="d-flex justify-content-between mt-4 mb-5">
             <button type="button" id="addFormBtn" class="btn btn-secondary">
-                <i class="bi bi-plus-circle"></i> Add Another Form
+                <i class="fas fa-plus-circle"></i>
+                <span data-i18n="AddAnother">Add Another Form</span>
             </button>
             <button type="submit" class="btn btn-primary">
-                <i class="bi bi-check-lg"></i> Submit All Forms
+                <i class="fas fa-check"></i>
+                <span data-i18n="SubmitFormsButton">Submit All Forms</span>
             </button>
         </div>
     </form>
@@ -26,58 +27,63 @@
         <div class="card-header bg-light d-flex justify-content-between align-items-center">
             <h5 class="mb-0"><span class="form-number"></span></h5>
             <button type="button" class="btn btn-sm btn-outline-danger remove-form-btn">
-                <i class="bi bi-trash"></i> Remove Form
+                <i class="fas fa-trash-alt"></i>
+                <span data-i18n="RemoveForm">Remove Form</span>
             </button>
         </div>
         <div class="card-body">
             <input type="hidden" name="[IDX].Position" value="0" />
             <div class="question-container">
                 <div class="mb-3">
-                    <label class="form-label">Question Title</label>
-                    <input type="text" name="[IDX].Question.Title" class="form-control" required />
+                    <label class="form-label" data-i18n="QuestionTitle">Question Title</label>
+                    <input type="text" name="[IDX].Question.Title" class="form-control" />
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Description</label>
-                    <textarea name="[IDX].Question.Description" class="form-control"></textarea>
+                    <label class="form-label" data-i18n="Description">Description</label>
+                    <textarea name="[IDX].Question.Description" class="form-control"
+                              placeholder="Enter question description (optional)"
+                              data-i18n-placeholder="QuestionDescriptionPlaceholder"></textarea>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Question Type</label>
-                    <select name="[IDX].Question.Type" class="form-select question-type-select" required>
-                        <option value="">Select a type</option>
-                        <option value="@QuestionType.SingleLine">One-line Text</option>
-                        <option value="@QuestionType.MultiLine">Text</option>
-                        <option value="@QuestionType.Checkbox">Checkbox</option>
-                        <option value="@QuestionType.Integer">Number</option>
+                    <label class="form-label" data-i18n="QuestionType">Question Type</label>
+                    <select name="[IDX].Question.Type" class="form-select question-type-select">
+                        <option value="" data-i18n="QuestionTypeSelect">Select a type</option>
+                        <option value="@QuestionType.SingleLine" data-i18n="OneLine">One-line Text</option>
+                        <option value="@QuestionType.MultiLine" data-i18n="MultiLine">Text</option>
+                        <option value="@QuestionType.Checkbox" data-i18n="Checkbox">Checkbox</option>
+                        <option value="@QuestionType.Integer" data-i18n="Number">Number</option>
                     </select>
                 </div>
                 <div class="type-settings singleline-settings d-none mb-3">
-                    <label class="form-label">Maximum Length</label>
-                    <input type="number" name="[IDX].Question.MaxLength" class="form-control" min="1" />
-                    <small class="text-muted">Maximum number of characters allowed</small>
+                    <label class="form-label" data-i18n="MaxLength">Maximum Length</label>
+                    <input type="number" name="[IDX].Question.MaxLength" class="form-control" min="1"
+                           placeholder="Maximum number of characters allowed"
+                           data-i18n-placeholder="MaxLengthPlaceholder" />
                 </div>
                 <div class="type-settings integer-settings d-none mb-3">
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="form-label">Minimum Value</label>
+                            <label class="form-label" data-i18n="MinValue">Minimum Value</label>
                             <input type="number" name="[IDX].Question.MinValue" class="form-control" />
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Maximum Value</label>
+                            <label class="form-label" data-i18n="MaxValue">Maximum Value</label>
                             <input type="number" name="[IDX].Question.MaxValue" class="form-control" />
                         </div>
                     </div>
                 </div>
                 <div class="type-settings checkbox-settings d-none mb-3">
-                    <label class="form-label">Checkbox Options</label>
+                    <label class="form-label" data-i18n="CheckboxOptions">Checkbox Options</label>
                     <div class="checkbox-options-container">
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-secondary add-checkbox-option mt-2">
-                        <i class="bi bi-plus-circle"></i> Add Option
+                        <i class="fas fa-plus-circle"></i>
+                        <span data-i18n="AddOption">Add Option</span>
                     </button>
                 </div>
                 <div class="form-check mb-3">
                     <input type="checkbox" name="[IDX].Question.ShowInTable" class="form-check-input" value="true" />
-                    <label class="form-check-label">Show in table</label>
+                    <label class="form-check-label" data-i18n="ShowInTable">Show in table</label>
                 </div>
             </div>
         </div>

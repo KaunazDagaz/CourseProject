@@ -11,6 +11,12 @@
         elem.setAttribute('title', translated);
     });
 
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
+        const key = elem.getAttribute('data-i18n-placeholder');
+        const translated = i18next.t(key);
+        elem.setAttribute('placeholder', translated);
+    });
+
 }
 
 window.localizePage = localizePage;

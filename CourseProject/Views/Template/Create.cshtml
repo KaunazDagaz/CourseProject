@@ -9,42 +9,45 @@
         <div class="col-md-8 mx-auto">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Create New Template</h4>
+                    <h4 class="mb-0" data-i18n="CreateTemplate">Create New Template</h4>
                 </div>
                 <div class="card-body">
                     <form asp-action="Create" method="post" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                         <div class="mb-3">
-                            <label asp-for="Title" class="form-label">Title</label>
-                            <input asp-for="Title" class="form-control" placeholder="Enter template title" />
+                            <label asp-for="Title" class="form-label" data-i18n="Title">Title</label>
+                            <input asp-for="Title" class="form-control" placeholder="Enter template title"
+                                   data-i18n-placeholder="TitlePlaceholder" />
                             <span asp-validation-for="Title" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Description" class="form-label">Description</label>
-                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter template description (optional)"></textarea>
+                            <label asp-for="Description" class="form-label" data-i18n="Description">Description</label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Enter template description (optional)"
+                                      data-i18n-placeholder="DescriptionPlaceholder"></textarea>
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Topic" class="form-label">Topic</label>
-                            <input asp-for="Topic" class="form-control" placeholder="Enter template topic" />
+                            <label asp-for="Topic" class="form-label" data-i18n="Topic">Topic</label>
+                            <input asp-for="Topic" class="form-control" placeholder="Enter template topic"
+                                   data-i18n-placeholder="TopicPlaceholder" />
                             <span asp-validation-for="Topic" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Image" class="form-label">Image</label>
+                            <label asp-for="Image" class="form-label" data-i18n="Image">Image</label>
                             <input asp-for="Image" type="file" class="form-control" accept="image/*" />
                             <span asp-validation-for="Image" class="text-danger"></span>
-                            <small class="form-text text-muted">Upload an image for your template (optional)</small>
+                            <small class="form-text text-muted" data-i18n="ImagePlaceholder">Upload an image for your template (optional)</small>
                         </div>
                         <div class="mb-4">
                             <div class="form-check">
                                 <input asp-for="IsPublic" class="form-check-input" />
-                                <label asp-for="IsPublic" class="form-check-label">Make this template public</label>
+                                <label asp-for="IsPublic" class="form-check-label" data-i18n="MakePublic">Make this template public</label>
                                 <span asp-validation-for="IsPublic" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <a asp-controller="MainPage" asp-action="MainPage" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary">Create Template</button>
+                            <a asp-controller="MainPage" asp-action="MainPage" class="btn btn-secondary" data-i18n="Cancel">Cancel</a>
+                            <button type="submit" class="btn btn-primary" data-i18n="CreateButton">Create Template</button>
                         </div>
                     </form>
                 </div>
