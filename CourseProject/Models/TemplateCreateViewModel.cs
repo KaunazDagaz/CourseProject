@@ -4,10 +4,10 @@ namespace CourseProject.Models
 {
     public class TemplateCreateViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Error.TitleReuired")]
         public required string Title { get; set; }
         public string? Description { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Error.TopicRequired")]
         public required string Topic { get; set; }
         public IFormFile? Image { get; set; }
         [Required]

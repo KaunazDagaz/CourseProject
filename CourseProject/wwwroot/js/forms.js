@@ -1,6 +1,9 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     let formCount = 0;
     let sortable;
+    i18next.on('languageChanged', function() {
+        updatePositions();
+    });    
     addNewForm();
     initSortable();
 
@@ -11,9 +14,10 @@
     document.getElementById('formsContainer').addEventListener('submit', function (e) {
         updatePositions();
         const formContainer = document.getElementById('formsList');
-        const requiredFields = formContainer.querySelectorAll('input[required], select[required]');
+        const requiredFields = formContainer.querySelectorAll('input, select');
         let isValid = true;
         let invalidFields = [];
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
                 isValid = false;
@@ -23,17 +27,27 @@
                 field.classList.remove('is-invalid');
             }
         });
+
         if (!isValid) {
             e.preventDefault();
-            console.error('Invalid fields:', invalidFields);
-            showMessage('Please fill in all required fields');
             return;
+        }
+    });
+
+    document.getElementById('formsList').addEventListener('input', function (e) {
+        if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA')) {
+            if (e.target.value.trim()) {
+                e.target.classList.remove('is-invalid');
+            }
         }
     });
 
     document.getElementById('formsList').addEventListener('change', function (e) {
         if (e.target && e.target.classList.contains('question-type-select')) {
             handleQuestionTypeChange(e.target);
+            if (e.target.value.trim()) {
+                e.target.classList.remove('is-invalid');
+            }
         }
     });
 
@@ -72,7 +86,9 @@
             if (positionInput) {
                 positionInput.value = index;
             }
-            container.querySelector('.form-number').textContent = `Form ${index + 1}`;
+            const formNumberSpan = container.querySelector('.form-number');
+            const translatedText = i18next.t('FormNumber', { number: index + 1 });
+            formNumberSpan.textContent = translatedText || `Form ${index + 1}`;
         });
     }
 
@@ -116,7 +132,7 @@
         optionRow.className = 'checkbox-option-row input-group mb-2';
         optionRow.innerHTML = `
             <input type="text" name="[${formIndex}].Question.CheckboxOptions[${optionIndex}]" 
-                class="form-control" placeholder="Option text" required />
+                class="form-control" />
             <button type="button" class="btn btn-outline-danger remove-checkbox-option">
                <i class="fas fa-trash-alt"></i>
             </button>
@@ -131,7 +147,9 @@
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = templateContent;
         const newForm = tempDiv.firstElementChild;
-        newForm.querySelector('.form-number').textContent = `Form ${formCount}`;
+        const formNumberSpan = newForm.querySelector('.form-number');
+        const translatedText = i18next.t('FormNumber', { number: formCount });
+        formNumberSpan.textContent = translatedText || `Form ${formCount}`;
         newForm.querySelectorAll('[name]').forEach(function (element) {
             const name = element.getAttribute('name').replace('IDX', formIndex);
             element.setAttribute('name', name);
@@ -144,14 +162,11 @@
                 this.closest('.form-container').remove();
                 formCount--;
                 updatePositions();
-            } else {
-                alert('You must have at least one form');
             }
         });
         document.getElementById('formsList').appendChild(newForm);
         const dragHandle = document.createElement('div');
         dragHandle.className = 'drag-handle me-2';
-        dragHandle.innerHTML = '<i class="bi bi-grip-vertical"></i>';
         dragHandle.style.cursor = 'grab';
         newForm.querySelector('.card-header').prepend(dragHandle);
         updatePositions();
