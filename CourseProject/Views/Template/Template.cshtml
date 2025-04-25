@@ -1,0 +1,38 @@
+﻿@model CourseProject.Models.TemplateViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container py-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white py-3">
+            <h2 class="text-center mb-0">@Model.Title</h2>
+        </div>
+        <div class="card-body p-4">
+            @if (!string.IsNullOrEmpty(Model.Image))
+            {
+                <div class="text-center mb-4">
+                    <img src="@Model.Image" alt="@Model.Title" class="img-fluid rounded" style="max-height: 300px;" />
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <div class="mb-4">
+                    <h5 data-i18n="Description">Description</h5>
+                    <p>@Model.Description</p>
+                </div>
+            }
+            <div class="mb-4">
+                <h5 data-i18n="Topic">Topic</h5>
+                <p>@Model.Topic</p>
+            </div>
+            <div class="text-center mt-4">
+                <a asp-controller="Answer" asp-action="Submit" asp-route-templateId="@Model.Id" class="btn btn-primary btn-lg">
+                    <i class="fas fa-file-alt me-2"></i>
+                    <span data-i18n="FillOutTemplate">Fill Out Template</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

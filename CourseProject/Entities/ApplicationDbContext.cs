@@ -12,6 +12,7 @@ namespace CourseProject.Entities
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionOption> QuestionOptions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<AnswerOption> AnswerOptions { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Tag> Tags { get; set; }
@@ -56,6 +57,17 @@ namespace CourseProject.Entities
                 .WithMany()
                 .HasForeignKey(a => a.FormId)
                 .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<AnswerOption>()
+                .HasOne<Answer>()
+                .WithMany()
+                .HasForeignKey(a => a.AnswerId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<AnswerOption>()
+                .HasOne<QuestionOption>()
+                .WithMany()
+                .HasForeignKey(a => a.OptionId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Comment>()
                .HasOne<Template>()

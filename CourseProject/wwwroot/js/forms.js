@@ -14,7 +14,7 @@
     document.getElementById('formsContainer').addEventListener('submit', function (e) {
         updatePositions();
         const formContainer = document.getElementById('formsList');
-        const requiredFields = formContainer.querySelectorAll('input, select');
+        const requiredFields = formContainer.querySelectorAll('[required]');
         let isValid = true;
         let invalidFields = [];
         document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
@@ -132,7 +132,7 @@
         optionRow.className = 'checkbox-option-row input-group mb-2';
         optionRow.innerHTML = `
             <input type="text" name="[${formIndex}].Question.CheckboxOptions[${optionIndex}]" 
-                class="form-control" />
+                class="form-control" required/>
             <button type="button" class="btn btn-outline-danger remove-checkbox-option">
                <i class="fas fa-trash-alt"></i>
             </button>

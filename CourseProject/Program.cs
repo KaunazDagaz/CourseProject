@@ -46,6 +46,7 @@ builder.Services.AddScoped<ITemplateService, TemplateService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IFormService, FormService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
+builder.Services.AddScoped<IAnswerService, AnswerService>();
 
 builder.Services.AddSingleton(provider => {
     var configuration = provider.GetRequiredService<IConfiguration>();
