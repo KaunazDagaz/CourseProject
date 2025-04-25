@@ -17,7 +17,6 @@
             }
             <form method="post">
                 <input type="hidden" name="templateId" value="@Model.TemplateId" />
-
                 @for (int i = 0; i < Model.Forms.Count; i++)
                 {
                     var form = Model.Forms[i];
@@ -37,7 +36,6 @@
                                 {
                                     <p class="text-muted mb-3">@form.Question.Description</p>
                                 }
-
                                 @switch (form.Question.Type)
                                 {
                                     case CourseProject.Entities.QuestionType.SingleLine:
@@ -46,7 +44,7 @@
                                         @if (form.Question.MaxLength != null)
                                         {
                                             <small class="text-muted">
-                                                Max length: @form.Question.MaxLength characters
+                                                <span data-i18n="Validation.Maxlength" data-i18n-options='{"maxlength": @form.Question.MaxLength}'></span>
                                             </small>
                                         }
                                         break;
@@ -62,15 +60,15 @@
                                             <small class="text-muted">
                                                 @if (form.Question.MinValue != null && form.Question.MaxValue != null)
                                                 {
-                                                    @($"Allowed range: {form.Question.MinValue} – {form.Question.MaxValue}")
+                                                    <span data-i18n="Validation.Range" data-i18n-options='{"min": @form.Question.MinValue, "max": @form.Question.MaxValue}'></span>
                                                 }
                                                 else if (form.Question.MinValue != null)
                                                 {
-                                                    @($"Minimum: {form.Question.MinValue}")
+                                                    <span data-i18n="Validation.Min" data-i18n-options='{"min": @form.Question.MinValue}'></span>
                                                 }
                                                 else if (form.Question.MaxValue != null)
                                                 {
-                                                    @($"Maximum: {form.Question.MaxValue}")
+                                                    <span data-i18n="Validation.Max" data-i18n-options='{"max": @form.Question.MaxValue}'></span>
                                                 }
                                             </small>
                                         }
@@ -100,7 +98,7 @@
                 }
                 <div class="d-flex justify-content-between">
                     <a href="javascript:history.back()" class="btn btn-secondary" data-i18n="Cancel">Cancel</a>
-                    <button type="submit" class="btn btn-primary" data-i18n="SubmitAnswer">Submit Answers</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="SubmitAnswerButton">Submit Answers</button>
                 </div>
             </form>
         </div>
