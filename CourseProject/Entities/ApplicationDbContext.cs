@@ -67,7 +67,7 @@ namespace CourseProject.Entities
                 .HasOne<QuestionOption>()
                 .WithMany()
                 .HasForeignKey(a => a.OptionId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comment>()
                .HasOne<Template>()
@@ -102,13 +102,13 @@ namespace CourseProject.Entities
                 .HasOne<Tag>()
                 .WithMany()
                 .HasForeignKey(tt => tt.TagId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<TemplateStats>()
                 .HasOne<Template>()
                 .WithOne()
                 .HasForeignKey<TemplateStats>(ts => ts.TemplateId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
