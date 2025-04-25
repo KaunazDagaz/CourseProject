@@ -26,6 +26,7 @@ namespace CourseProject
             CreateMap<FormWithQuestionsViewModel, Form>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Position, opt => opt.MapFrom(src => src.Position))
+                .ForMember(dest => dest.ShowInTable, opt => opt.MapFrom(src => src.ShowInTable))
                 .ForMember(dest => dest.TemplateId, opt => opt.Ignore());
             CreateMap<AnswerSubmissionViewModel, Answer>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -41,7 +42,8 @@ namespace CourseProject
             CreateMap<Form, FormSubmissionViewModel>()
                 .ForMember(dest => dest.Question, opt => opt.Ignore())
                 .ForMember(dest => dest.Options, opt => opt.Ignore())
-                .ForMember(dest => dest.Answer, opt => opt.Ignore());
+                .ForMember(dest => dest.Answer, opt => opt.Ignore())
+                .ForMember(dest => dest.ShowInTable, opt => opt.MapFrom(src => src.ShowInTable));
             CreateMap<Question, AnswerSubmissionViewModel>()
                 .ForMember(dest => dest.FormId, opt => opt.MapFrom(src => src.FormId))
                 .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.Id))
