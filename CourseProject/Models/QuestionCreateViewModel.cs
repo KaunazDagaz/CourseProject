@@ -10,7 +10,6 @@ namespace CourseProject.Models
         public string? Description { get; set; }
         [Required(ErrorMessage = "Question type is required")]
         public QuestionType Type { get; set; }
-        public bool ShowInTable { get; set; }
         public int? MaxLength { get; set; }
         public int? MinValue { get; set; }
         public int? MaxValue { get; set; }

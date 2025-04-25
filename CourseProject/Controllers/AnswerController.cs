@@ -26,6 +26,7 @@ namespace CourseProject.Controllers
             {
                 return NotFound();
             }
+            model.Forms = model.Forms.Where(f => f.ShowInTable).ToList();
             return View(model);
         }
 

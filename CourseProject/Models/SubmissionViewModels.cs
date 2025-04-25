@@ -23,6 +23,7 @@ namespace CourseProject.Models
     {
         public Guid FormId { get; set; }
         public int Position { get; set; }
+        public bool ShowInTable { get; set; }
         public QuestionViewModel Question { get; set; } = null!;
         public List<QuestionOptionViewModel>? Options { get; set; }
         public AnswerSubmissionViewModel Answer { get; set; } = new();

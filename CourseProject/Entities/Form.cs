@@ -10,5 +10,7 @@ namespace CourseProject.Entities
         public Guid TemplateId { get; set; }
         [Required]
         public int Position { get; set; }
+        [Required]
+        public bool ShowInTable { get; set; }
     }
 }
