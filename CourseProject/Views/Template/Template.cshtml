@@ -28,10 +28,16 @@
                 <p>@Model.Topic</p>
             </div>
             <div class="text-center mt-4">
-                <a asp-controller="Answer" asp-action="Submit" asp-route-templateId="@Model.Id" class="btn btn-primary btn-lg">
-                    <i class="fas fa-file-alt me-2"></i>
-                    <span data-i18n="FillOutButton">Fill Out Template</span>
-                </a>
+                <div class="d-flex justify-content-center gap-3">
+                    <a asp-controller="MainPage" asp-action="MainPage" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-home me-2"></i>
+                        <span data-i18n="BackToMainButton">Back to Main Page</span>
+                    </a>
+                    <a asp-controller="Answer" asp-action="Submit" asp-route-templateId="@Model.Id" class="btn btn-primary btn-lg">
+                        <i class="fas fa-file-alt me-2"></i>
+                        <span data-i18n="FillOutButton">Fill Out Template</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
