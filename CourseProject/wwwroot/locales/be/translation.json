@@ -89,8 +89,16 @@
   "AddOption": "Дадаць варыянт",
   "ShowInTable": "Паказваць у табліцы",
 
+  "FillOutButton": "Запоўніць шаблон",
+  "SubmitAnswerButton": "Адправіць адказы",
+  "ThankYou": "Дзякуй!",
+  "AnswerSubmitted": "Вашы адказы паспяхова адпраўлены!",
+  "BackToMainPage": "Назад на Галоўную Старонку",
+  "ViewTemplate": "Праглядзець Шаблон",
+
   "Validation.Required": "Гэтае поле абавязковае для запаўнення",
   "Validation.Min": "Значэнне павінна быць большым або роўным {{min}}",
   "Validation.Max": "Значэнне павінна быць меншым або роўным {{max}}",
+  "Validation.Range": "Дапушчальны дыяпазон: {{min}} – {{max}}",
   "Validation.Maxlength": "Тэкст павінен утрымліваць {{maxlength}} сімвалаў або менш"
 }
