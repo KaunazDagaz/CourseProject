@@ -36,7 +36,7 @@
             <div class="question-container">
                 <div class="mb-3">
                     <label class="form-label" data-i18n="QuestionTitle">Question Title</label>
-                    <input type="text" name="[IDX].Question.Title" class="form-control" />
+                    <input type="text" name="[IDX].Question.Title" class="form-control" required/>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" data-i18n="Description">Description</label>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" data-i18n="QuestionType">Question Type</label>
-                    <select name="[IDX].Question.Type" class="form-select question-type-select">
+                    <select name="[IDX].Question.Type" class="form-select question-type-select" required>
                         <option value="" data-i18n="QuestionTypeSelect">Select a type</option>
                         <option value="@QuestionType.SingleLine" data-i18n="OneLine">One-line Text</option>
                         <option value="@QuestionType.MultiLine" data-i18n="MultiLine">Text</option>

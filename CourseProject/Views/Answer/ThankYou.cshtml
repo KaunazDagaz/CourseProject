@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Thank You";
+}
+
+<div class="container py-5">
+    <div class="card shadow">
+        <div class="card-body text-center p-5">
+            <h1 class="display-4 mb-4" data-i18n="ThankYou">Thank You!</h1>
+            <p class="lead mb-4" data-i18n="AnswerSubmitted">Your answers have been submitted successfully.</p>
+            <div class="mt-5">
+                <a asp-controller="MainPage" asp-action="MainPage" class="btn btn-primary me-3" data-i18n="BackToHome">Back to Home</a>
+                <a asp-controller="Template" asp-action="Template" asp-route-id="@ViewBag.TemplateId" class="btn btn-outline-secondary" data-i18n="ViewTemplate">View Template</a>
+            </div>
+        </div>
+    </div>
+</div>

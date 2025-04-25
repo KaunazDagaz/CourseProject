@@ -12,7 +12,6 @@ namespace CourseProject.Entities
         public Guid FormId { get; set; }
         [Required]
         public DateTime SubmittedAt { get; set; }
-        [Required]
-        public required string Content { get; set; }
+        public string? TextAnswer { get; set; }
     }
 }

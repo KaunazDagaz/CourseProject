@@ -3,6 +3,7 @@ using System;
 using CourseProject.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CourseProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250424165527_FixForeignKey")]
+    partial class FixForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,11 +65,17 @@ namespace CourseProject.Migrations
                     b.Property<Guid>("OptionId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("OptionId1")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AnswerId");
 
-                    b.HasIndex("OptionId");
+                    b.HasIndex("OptionId")
+                        .IsUnique();
+
+                    b.HasIndex("OptionId1");
 
                     b.ToTable("AnswerOptions");
                 });
@@ -526,10 +535,18 @@ namespace CourseProject.Migrations
                         .IsRequired();
 
                     b.HasOne("CourseProject.Entities.QuestionOption", null)
-                        .WithMany()
-                        .HasForeignKey("OptionId")
+                        .WithOne()
+                        .HasForeignKey("CourseProject.Entities.AnswerOption", "OptionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("CourseProject.Entities.QuestionOption", "Option")
+                        .WithMany()
+                        .HasForeignKey("OptionId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Option");
                 });
 
             modelBuilder.Entity("CourseProject.Entities.Comment", b =>
