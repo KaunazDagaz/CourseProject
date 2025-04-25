@@ -87,5 +87,10 @@
   "MaxValue": "Максімальнае значэнне",
   "CheckboxOptions": "Варыянты",
   "AddOption": "Дадаць варыянт",
-  "ShowInTable": "Паказваць у табліцы"
+  "ShowInTable": "Паказваць у табліцы",
+
+  "Validation.Required": "Гэтае поле абавязковае для запаўнення",
+  "Validation.Min": "Значэнне павінна быць большым або роўным {{min}}",
+  "Validation.Max": "Значэнне павінна быць меншым або роўным {{max}}",
+  "Validation.Maxlength": "Тэкст павінен утрымліваць {{maxlength}} сімвалаў або менш"
 }
