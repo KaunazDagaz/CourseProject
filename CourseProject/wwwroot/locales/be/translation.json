@@ -90,10 +90,11 @@
   "ShowInTable": "Паказваць у табліцы",
 
   "FillOutButton": "Запоўніць шаблон",
+  "TemplateReadOnlyMessage": "Каб адправіць шаблон, вам трэба ўвайсці ў сістэму. Вы праглядаеце яго ў рэжыме толькі для чытання.",
   "SubmitAnswerButton": "Адправіць адказы",
   "ThankYou": "Дзякуй!",
   "AnswerSubmitted": "Вашы адказы паспяхова адпраўлены!",
-  "BackToMainPage": "Назад на Галоўную Старонку",
+  "BackToMainButton": "Назад на Галоўную Старонку",
   "ViewTemplate": "Праглядзець Шаблон",
 
   "Validation.Required": "Гэтае поле абавязковае для запаўнення",

@@ -9,7 +9,10 @@
             <p class="lead mb-4" data-i18n="AnswerSubmitted">Your answers have been submitted successfully!</p>
             <div class="mt-5">
                 <a asp-controller="MainPage" asp-action="MainPage"
-                   class="btn btn-primary me-3" data-i18n="BackToMainPage">Back to Main Page</a>
+                   class="btn btn-primary me-3">
+                    <i class="fas fa-home me-2"></i>
+                    <span data-i18n="BackToMainButton">Back to Main Page</span>
+                </a>
                 <a asp-controller="Template" asp-action="Template" asp-route-id="@ViewBag.TemplateId"
                    class="btn btn-outline-secondary" data-i18n="ViewTemplate">View Template</a>
             </div>
