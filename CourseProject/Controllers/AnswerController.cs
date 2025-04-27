@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CourseProject.Controllers
 {
@@ -27,6 +28,16 @@ namespace CourseProject.Controllers
                 return NotFound();
             }
             model.Forms = model.Forms.Where(f => f.ShowInTable).ToList();
+            var user = await userValidationService.GetCurrentUserAsync();
+            if (user != null)
+            {
+                string userId = user.Id;
+                model.HasPreviouslyAnswered = await answerService.HasAnsweredAsync(templateId, userId);
+                if (model.HasPreviouslyAnswered)
+                {
+                    await answerService.LoadPreviousAnswersAsync(model.Forms, userId);
+                }
+            }
             return View(model);
         }
 
@@ -37,7 +48,15 @@ namespace CourseProject.Controllers
             return await HandleUserActionAsync(async () =>
             {
                 var user = await userValidationService.GetCurrentUserAsync();
-                await answerService.SaveAnswersAsync(answers, user!.Id);
+                bool hasAnswered = await answerService.HasAnsweredAsync(templateId, user!.Id);
+                if (hasAnswered)
+                {
+                    await answerService.UpdateAnswersAsync(answers, user.Id);
+                }
+                else
+                {
+                    await answerService.SaveAnswersAsync(answers, user.Id);
+                }
                 return RedirectToAction("ThankYou", new { templateId });
             });          
         }

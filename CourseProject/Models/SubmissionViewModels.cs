@@ -16,6 +16,7 @@ namespace CourseProject.Models
         public Guid TemplateId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string? Description { get; set; }
+        public bool HasPreviouslyAnswered { get; set; }
         public List<FormSubmissionViewModel> Forms { get; set; } = new();
     }
 

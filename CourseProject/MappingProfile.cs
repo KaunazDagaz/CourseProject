@@ -40,6 +40,7 @@ namespace CourseProject
                 .ForMember(dest => dest.TemplateId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Forms, opt => opt.Ignore());
             CreateMap<Form, FormSubmissionViewModel>()
+                .ForMember(dest => dest.FormId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Question, opt => opt.Ignore())
                 .ForMember(dest => dest.Options, opt => opt.Ignore())
                 .ForMember(dest => dest.Answer, opt => opt.Ignore())

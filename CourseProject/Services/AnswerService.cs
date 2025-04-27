@@ -27,29 +27,71 @@ namespace CourseProject.Services
             return result;
         }
 
+        public async Task LoadPreviousAnswersAsync(List<FormSubmissionViewModel> forms, string userId)
+        {
+            var formIds = forms.Select(f => f.FormId).ToList();
+            var answers = await dbContext.Answers.Where(a => formIds.Contains(a.FormId) && a.AuthorId == userId)
+                .ToListAsync();
+            var answersFormId = answers.ToDictionary(a => a.FormId, a => a);
+            var answerIds = answers.Select(a => a.Id).ToList();
+            var answerOptions = await dbContext.AnswerOptions.Where(ao => answerIds.Contains(ao.AnswerId))
+                .GroupBy(ao => ao.AnswerId)
+                .ToDictionaryAsync(g => g.Key, g => g.Select(ao => ao.OptionId).ToList());
+            foreach (var form in forms)
+            {
+                if (answersFormId.TryGetValue(form.FormId, out var answer))
+                {
+                    form.Answer = new AnswerSubmissionViewModel
+                    {
+                        FormId = answer.FormId,
+                        QuestionId = form.Question.Id,
+                        QuestionType = form.Question.Type,
+                        TextAnswer = answer.TextAnswer
+                    };
+                    if (form.Question.Type == QuestionType.Checkbox &&
+                        answerOptions.TryGetValue(answer.Id, out var options))
+                    {
+                        form.Answer.SelectedOptions = options;
+                    }
+                }
+            }
+        }
+
         public async Task SaveAnswersAsync(List<AnswerSubmissionViewModel> answers, string userId)
         {
-            await EnsureFormIdsAsync(answers);
             AddAnswerAsync(answers, userId);
             await UpdateTemplateStatsAsync(answers.First().FormId);
             await dbContext.SaveChangesAsync();
         }
 
-        private async Task EnsureFormIdsAsync(List<AnswerSubmissionViewModel> answers)
+        public async Task<bool> HasAnsweredAsync(Guid templateId, string userId)
         {
-            var missingFormIds = answers.Where(a => a.FormId == Guid.Empty).ToList();
-            if (!missingFormIds.Any())
-                return;
-            var questionIds = missingFormIds.Select(a => a.QuestionId).ToList();
-            var questionFormMap = await dbContext.Questions.Where(q => questionIds.Contains(q.Id))
-                .ToDictionaryAsync(q => q.Id, q => q.FormId);
-            foreach (var answer in missingFormIds)
+            var formIds = await dbContext.Forms.Where(f => f.TemplateId == templateId)
+                .Select(f => f.Id)
+                .ToListAsync();
+            return await dbContext.Answers.AnyAsync(a => formIds.Contains(a.FormId) && a.AuthorId == userId);
+        }
+
+        public async Task UpdateAnswersAsync(List<AnswerSubmissionViewModel> answers, string userId)
+        {
+            var templateId = await dbContext.Forms.Where(f => f.Id == answers.First().FormId)
+                .Select(f => f.TemplateId)
+                .FirstOrDefaultAsync();
+            var formIds = await dbContext.Forms.Where(f => f.TemplateId == templateId)
+                .Select(f => f.Id)
+                .ToListAsync();
+            var existingAnswers = await dbContext.Answers.Where(a => formIds.Contains(a.FormId) && a.AuthorId == userId)
+                .ToListAsync();
+            foreach (var answer in existingAnswers)
             {
-                if (questionFormMap.TryGetValue(answer.QuestionId, out var formId))
-                {
-                    answer.FormId = formId;
-                }
+                var options = await dbContext.AnswerOptions.Where(ao => ao.AnswerId == answer.Id)
+                    .ToListAsync();
+
+                dbContext.AnswerOptions.RemoveRange(options);
             }
+            dbContext.Answers.RemoveRange(existingAnswers);
+            AddAnswerAsync(answers, userId);
+            await dbContext.SaveChangesAsync();
         }
 
         private async Task<List<FormSubmissionViewModel>> BuildFormSubmissionViewModelsAsync(Guid templateId)
@@ -75,7 +117,9 @@ namespace CourseProject.Services
             if (question == null) return null;
             var formViewModel = mapper.Map<FormSubmissionViewModel>(form);
             formViewModel.Question = mapper.Map<QuestionViewModel>(question);
-            formViewModel.Answer = mapper.Map<AnswerSubmissionViewModel>(question);
+            var answerViewModel = mapper.Map<AnswerSubmissionViewModel>(question);
+            answerViewModel.FormId = form.Id;
+            formViewModel.Answer = answerViewModel;
             if (question.Type == QuestionType.Checkbox)
             {
                 formViewModel.Options = await GetQuestionOptionsAsync(question.Id);
@@ -131,7 +175,9 @@ namespace CourseProject.Services
 
         private async Task UpdateTemplateStatsAsync(Guid formId)
         {
-            var templateId = await GetTemplateIdFromFormAsync(formId);
+            var templateId = await dbContext.Forms.Where(f => f.Id == formId)
+                .Select(f => f.TemplateId)
+                .FirstOrDefaultAsync();
             var stats = await dbContext.TemplateStats.FirstOrDefaultAsync(ts => ts.TemplateId == templateId);
             if (stats == null)
             {
@@ -142,13 +188,6 @@ namespace CourseProject.Services
                 stats.AnswersCount++;
                 dbContext.TemplateStats.Update(stats);
             }
-        }
-
-        private async Task<Guid> GetTemplateIdFromFormAsync(Guid formId)
-        {
-            return await dbContext.Forms.Where(f => f.Id == formId)
-                .Select(f => f.TemplateId)
-                .FirstOrDefaultAsync();
         }
 
         private void CreateNewTemplateStats(Guid templateId)
