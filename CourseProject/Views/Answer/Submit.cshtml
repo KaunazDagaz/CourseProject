@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = Model.Title;
     bool isReadOnly = !User.Identity!.IsAuthenticated;
+    bool isEditMode = Model.HasPreviouslyAnswered;
 }
 
 <div class="container py-5">
@@ -48,6 +49,7 @@
                                 {
                                     case CourseProject.Entities.QuestionType.SingleLine:
                                         <input type="text" name="[@i].TextAnswer" class="form-control" required
+                                               value="@form.Answer.TextAnswer"
                                                maxlength="@(form.Question.MaxLength ?? int.MaxValue)"
                                         @(isReadOnly ? "disabled" : "") />
                                         @if (form.Question.MaxLength != null)
@@ -59,12 +61,13 @@
                                         break;
                                     case CourseProject.Entities.QuestionType.MultiLine:
                                         <textarea name="[@i].TextAnswer" class="form-control" rows="3" required
-                                        @(isReadOnly ? "disabled" : "")></textarea>
+                                        @(isReadOnly ? "disabled" : "")>@form.Answer.TextAnswer</textarea>
                                         break;
                                     case CourseProject.Entities.QuestionType.Integer:
                                         <input type="number" name="[@i].TextAnswer" class="form-control" required
                                                min="@(form.Question.MinValue ?? int.MinValue)"
                                                max="@(form.Question.MaxValue ?? int.MaxValue)"
+                                               value="@form.Answer.TextAnswer"
                                         @(isReadOnly ? "disabled" : "") />
                                         @if (form.Question.MinValue != null || form.Question.MaxValue != null)
                                         {
@@ -90,10 +93,14 @@
                                             <div class="mt-2">
                                                 @foreach (var option in form.Options)
                                                 {
+                                                    bool isChecked = form.Answer.SelectedOptions != null &&
+                                                    form.Answer.SelectedOptions.Contains(option.Id);
                                                     <div class="form-check mb-2">
                                                         <input class="form-check-input" type="checkbox"
                                                                name="[@i].SelectedOptions" value="@option.Id"
-                                                               id="option_@option.Id" @(isReadOnly ? "disabled" : "")>
+                                                               id="option_@option.Id"
+                                                        @(isReadOnly ? "disabled" : "")
+                                                        @(isChecked ? "checked" : "")>
                                                         <label class="form-check-label" for="option_@option.Id">
                                                             @option.Text
                                                         </label>
@@ -109,7 +116,9 @@
                 }
                 <div class="d-flex justify-content-between">
                     <a href="javascript:history.back()" class="btn btn-secondary" data-i18n="Cancel">Cancel</a>
-                    <button type="submit" class="btn btn-primary" disabled="@(isReadOnly)" data-i18n="SubmitAnswerButton">Submit Answers</button>
+                    <button type="submit" class="btn btn-primary" disabled="@(isReadOnly)" data-i18n="@(isEditMode ? "UpdateAnswersButton" : "SubmitAnswerButton")">
+                        @(isEditMode ? "Update Answers" : "Submit Answers")
+                    </button>
                 </div>
             </form>
         </div>

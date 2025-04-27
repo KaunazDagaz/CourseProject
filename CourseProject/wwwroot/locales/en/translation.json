@@ -92,6 +92,7 @@
   "FillOutButton": "Fill Out Template",
   "TemplateReadOnlyMessage": "You must be logged in to submit template. You're viewing it in read-only mode.",
   "SubmitAnswerButton": "Submit Answers",
+  "UpdateAnswersButton": "Update Answers",
   "ThankYou": "Thank You!",
   "AnswerSubmitted": "Your answers have been submitted successfully!",
   "BackToMainButton": "Back to Main Page",
