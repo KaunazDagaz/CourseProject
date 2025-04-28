@@ -59,6 +59,13 @@ namespace CourseProject.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await accountService.SignOutAsync();
+            return RedirectToAction("Login", "Account");
+        }
+
         private void GetLoginErrorMessage(User? user)
         {
             if (user == null)
