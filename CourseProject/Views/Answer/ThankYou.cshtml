@@ -16,6 +16,15 @@
         <div class="card-body text-center p-5">
             <h1 class="display-4 mb-4" data-i18n="ThankYou">Thank You!</h1>
             <p class="lead mb-4" data-i18n="AnswerSubmitted">Your answers have been submitted successfully!</p>
+            <div class="d-flex align-items-center justify-content-center mb-4">
+                <div class="me-3">
+                    <span id="like-count" class="fw-bold">@ViewBag.LikesCount</span>
+                </div>
+                <a href="#" id="like-button" class="text-decoration-none" data-template-id="@ViewBag.TemplateId">
+                    <i class="@(ViewBag.UserHasLiked ? "fas" : "far") fa-heart fs-4 text-danger"
+                       title="Like" data-i18n-title="Like"></i>
+                </a>
+            </div>
             <div class="mt-5">
                 <a asp-controller="MainPage" asp-action="MainPage"
                    class="btn btn-primary me-3">
@@ -49,6 +58,7 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/likes.js"></script>
     <script>
         $(document).ready(function () {
             const templateId = $("#template-id").val();

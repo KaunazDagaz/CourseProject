@@ -49,6 +49,7 @@ builder.Services.AddScoped<IFormService, FormService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IAnswerService, AnswerService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ILikeService, LikeService>();
 
 builder.Services.AddSingleton(provider => {
     var configuration = provider.GetRequiredService<IConfiguration>();

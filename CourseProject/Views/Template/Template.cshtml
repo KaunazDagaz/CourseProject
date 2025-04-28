@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = Model.Title;
+    bool isReadOnly = !User.Identity!.IsAuthenticated;
 }
 
 <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
@@ -36,6 +37,24 @@
                 <h5 data-i18n="Topic">Topic</h5>
                 <p>@Model.Topic</p>
             </div>
+            <div class="mb-4 d-flex align-items-center justify-content-center">
+                <div class="mb-4 d-flex align-items-center justify-content-center">
+                    <div class="me-3">
+                        <span id="like-count" class="fw-bold">@Model.LikesCount</span>
+                    </div>
+                    @if (isReadOnly)
+                    {
+                        <i class="far fa-heart fs-4" title="Like" data-i18n-title="Like"></i>
+                    }
+                    else
+                    {
+                        <a href="#" id="like-button" class="text-decoration-none" data-template-id="@Model.Id">
+                            <i class="@(ViewBag.UserHasLiked ? "fas" : "far") fa-heart fs-4 text-danger"
+                               title="Like" data-i18n-title="Like"></i>
+                        </a>
+                    }
+                </div>
+            </div>
             <div class="text-center mt-4">
                 <div class="d-flex justify-content-center gap-3">
                     <a asp-controller="MainPage" asp-action="MainPage" class="btn btn-secondary btn-lg">
@@ -59,6 +78,7 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/likes.js"></script>
     <script>
         $(document).ready(function () {
             commentHub.initialize("@Model.Id");

@@ -12,13 +12,15 @@ namespace CourseProject.Controllers
         private readonly IUserValidationService userValidationService;
         private readonly ITemplateService templateService;
         private readonly ICommentService commentService;
+        private readonly ILikeService likeService;
 
         public TemplateController(IUserValidationService userValidationService, ITemplateService templateService,
-            ICommentService commentService)
+            ICommentService commentService, ILikeService likeService)
         {
             this.userValidationService = userValidationService;
             this.templateService = templateService;
             this.commentService = commentService;
+            this.likeService = likeService;
         }
 
         [HttpGet]
@@ -55,6 +57,16 @@ namespace CourseProject.Controllers
             var templateViewModel = await templateService.GetTemplateAsync(id);
             var comments = await commentService.GetCommentsAsync(id);
             ViewBag.Comments = comments;
+            templateViewModel.LikesCount = await likeService.GetLikesCountAsync(id);
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var user = await userValidationService.GetCurrentUserAsync();
+                ViewBag.UserHasLiked = await likeService.HasUserLikedTemplateAsync(id, user!.Id);
+            }
+            else
+            {
+                ViewBag.UserHasLiked = false;
+            }
             return View(templateViewModel);
         }
 

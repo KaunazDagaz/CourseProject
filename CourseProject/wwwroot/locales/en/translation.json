@@ -105,6 +105,8 @@
   "NoComments": "No comments yet.",
   "CommentPostSuccess": "Your comment has been posted successfully!",
   "CommentPostFailed": "Failed to post comment. Please try again.",
+  "Like": "Like",
+  "LikePostFailed": "Something went wrong. Try to put like again.",
 
   "Validation.Required": "This field is required",
   "Validation.Min": "Value must be greater than or equal to {{min}}",
