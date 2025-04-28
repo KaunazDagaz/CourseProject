@@ -8,5 +8,6 @@
         public string? Description { get; set; }
         public required string Topic { get; set; }
         public string? Image { get; set; }
+        public int LikesCount { get; set; }
     }
 }

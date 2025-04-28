@@ -1,4 +1,5 @@
 ﻿using CourseProject.Models;
+using CourseProject.Services;
 using CourseProject.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -12,11 +13,14 @@ namespace CourseProject.Controllers
     {
         private readonly IAnswerService answerService;
         private readonly IUserValidationService userValidationService;
+        private readonly ILikeService likeService;
 
-        public AnswerController(IAnswerService answerService, IUserValidationService userValidationService)
+        public AnswerController(IAnswerService answerService, IUserValidationService userValidationService,
+            ILikeService likeService)
         {
             this.answerService = answerService;
             this.userValidationService = userValidationService;
+            this.likeService = likeService;
         }
 
         [HttpGet]
@@ -63,9 +67,19 @@ namespace CourseProject.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult ThankYou(Guid templateId)
+        public async Task<IActionResult> ThankYou(Guid templateId)
         {
             ViewBag.TemplateId = templateId;
+            ViewBag.LikesCount = await likeService.GetLikesCountAsync(templateId);
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var user = await userValidationService.GetCurrentUserAsync();
+                ViewBag.UserHasLiked = await likeService.HasUserLikedTemplateAsync(templateId, user!.Id);
+            }
+            else
+            {
+                ViewBag.UserHasLiked = false;
+            }
             return View();
         }
 
