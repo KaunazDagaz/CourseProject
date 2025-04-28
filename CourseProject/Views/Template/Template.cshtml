@@ -4,6 +4,15 @@
     ViewData["Title"] = Model.Title;
 }
 
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
+    <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div id="messageBox" class="toast-body"></div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"
+                    data-i18n-title="Close"></button>
+        </div>
+    </div>
+</div>
 <div class="container py-5">
     <div class="card shadow">
         <div class="card-header bg-primary text-white py-3">
@@ -40,5 +49,19 @@
                 </div>
             </div>
         </div>
+        <div class="card-footer bg-light">
+            <h4 class="mb-3"><i class="fas fa-comments me-2"></i><span data-i18n="Comments">Comments</span></h4>
+            <div id="comments-section">
+                @await Html.PartialAsync("_Comments", ViewBag.Comments as List<CommentViewModel>)
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            commentHub.initialize("@Model.Id");
+        });
+    </script>
+}
