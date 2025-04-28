@@ -5,21 +5,35 @@
     var selectedBE = currentLang == "be" ? "selected" : null;
 }
 
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container-fluid">
-        <div class="col-12 col-md-6 col-lg-2">
-            <div class="d-flex gap-2">
-                <form id="cultureForm" class="flex-grow-1" onsubmit="return false;">
-                    <select id="cultureSelect" class="form-select">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarContent" aria-controls="navbarContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarContent">
+            <div class="d-flex flex-column flex-lg-row gap-2 mb-2 mb-lg-0">
+                <form id="cultureForm" class="w-100" onsubmit="return false;">
+                    <select id="cultureSelect" class="form-select" style="min-width: 130px;">
                         <option value="en" selected="@selectedEN">English</option>
                         <option value="be" selected="@selectedBE">Беларуская</option>
                     </select>
                 </form>
-                <select id="theme-switcher" class="form-select form-select-sm w-auto">
+                <select id="theme-switcher" class="form-select" style="min-width: 130px;">
                     <option value="zephyr">Zephyr</option>
                     <option value="solar">Solar</option>
                 </select>
             </div>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <form asp-controller="Account" asp-action="Logout" method="post" class="ms-lg-auto mt-3 mt-lg-0">
+                    <button type="submit" class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt me-2"></i>
+                        <span data-i18n="Logout">Logout</span>
+                    </button>
+                </form>
+            }
         </div>
     </div>
 </nav>

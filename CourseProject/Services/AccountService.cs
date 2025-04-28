@@ -44,6 +44,11 @@ namespace CourseProject.Services
             return (result, user);
         }
 
+        public async Task SignOutAsync()
+        {
+            await signInManager.SignOutAsync();
+        }
+
         private async Task AddAdminRole(User user)
         {
             var r = await roleManager.FindByNameAsync("Administrator");

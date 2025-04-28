@@ -8,5 +8,6 @@ namespace CourseProject.Services.IServices
     {
         Task<IdentityResult> RegisterUserAsync(RegisterViewModel model);
         Task<(SignInResult Result, User? User)> LoginUserAsync(LoginViewModel model);
+        Task SignOutAsync();
     }
 }
