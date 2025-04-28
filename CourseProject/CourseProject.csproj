@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\i18next\" />
+    <Folder Include="wwwroot\lib\signalr\" />
     <Folder Include="wwwroot\lib\sortablejs\" />
   </ItemGroup>
 

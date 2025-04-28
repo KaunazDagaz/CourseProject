@@ -11,10 +11,10 @@ namespace CourseProject.Entities
         [Required]
         public required string AuthorId { get; set; }
         [Required]
+        public required string AuthorName { get; set; }
+        [Required]
         public required string Content { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; }
-        [Required]
-        public DateTime UpdatedAt { get; set; }
     }
 }

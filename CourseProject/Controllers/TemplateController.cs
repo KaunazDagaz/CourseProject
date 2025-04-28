@@ -11,11 +11,14 @@ namespace CourseProject.Controllers
     {
         private readonly IUserValidationService userValidationService;
         private readonly ITemplateService templateService;
+        private readonly ICommentService commentService;
 
-        public TemplateController(IUserValidationService userValidationService, ITemplateService templateService)
+        public TemplateController(IUserValidationService userValidationService, ITemplateService templateService,
+            ICommentService commentService)
         {
             this.userValidationService = userValidationService;
             this.templateService = templateService;
+            this.commentService = commentService;
         }
 
         [HttpGet]
@@ -50,6 +53,8 @@ namespace CourseProject.Controllers
         public async Task<IActionResult> Template(Guid id)
         {
             var templateViewModel = await templateService.GetTemplateAsync(id);
+            var comments = await commentService.GetCommentsAsync(id);
+            ViewBag.Comments = comments;
             return View(templateViewModel);
         }
 

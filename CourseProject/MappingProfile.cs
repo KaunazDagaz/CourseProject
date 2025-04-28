@@ -52,6 +52,8 @@ namespace CourseProject
                 .ForMember(dest => dest.TextAnswer, opt => opt.Ignore())
                 .ForMember(dest => dest.SelectedOptions, opt => opt.Ignore());
             CreateMap<QuestionOption, QuestionOptionViewModel>();
+            CreateMap<Comment, CommentViewModel>();
+            CreateMap<CommentCreateViewModel, Comment>();
         }
 
         public class UserRoleResolver : IValueResolver<User, UserViewModel, string>

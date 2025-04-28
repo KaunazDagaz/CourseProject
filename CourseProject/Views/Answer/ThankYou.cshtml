@@ -2,6 +2,15 @@
     ViewData["Title"] = "Thank You";
 }
 
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
+    <div id="messageToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div id="messageBox" class="toast-body"></div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close" data-i18n-title="Close"></button>
+        </div>
+    </div>
+</div>
 <div class="container py-5">
     <div class="card shadow">
         <div class="card-body text-center p-5">
@@ -14,8 +23,40 @@
                     <span data-i18n="BackToMainButton">Back to Main Page</span>
                 </a>
                 <a asp-controller="Template" asp-action="Template" asp-route-id="@ViewBag.TemplateId"
-                   class="btn btn-outline-secondary" data-i18n="ViewTemplate">View Template</a>
+                   class="btn btn-outline-secondary">
+                    <span data-i18n="ViewTemplate">View Template</span>
+                </a>
+            </div>
+        </div>
+        <div class="card-footer bg-light">
+            <h4 class="mb-3 text-center"><i class="fas fa-comment-dots me-2"></i><span data-i18n="LeaveComment">Leave a Comment</span></h4>
+            <div class="comment-form-container">
+                <input type="hidden" id="template-id" value="@ViewBag.TemplateId" />
+                <div class="form-group">
+                    <textarea id="new-comment-input" class="form-control" rows="3"
+                              placeholder="Share your thoughts about this template..."
+                              data-i18n-placeholder="ShareThoughtsPlaceholder"></textarea>
+                </div>
+                <div class="form-group mt-3 text-center">
+                    <button id="post-comment" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-2"></i>
+                        <span data-i18n="PostComment">Post Comment</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            const templateId = $("#template-id").val();
+            commentHub.initialize(templateId);
+            $("#post-comment").click(function () {
+                const content = $("#new-comment-input").val().trim();
+                commentHub.postComment(content, '@Url.Action("AddComment", "Comment")');
+            });
+        });
+    </script>
+}

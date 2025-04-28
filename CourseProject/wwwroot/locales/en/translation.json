@@ -21,6 +21,7 @@
   "Error.PasswordTooShort": "Password should contain at least 6 symbols.",
 
   "UserManagement": "User Management",
+  "Close": "Close",
   "UserActions": "User Actions",
   "UnblockTooltip": "Unblock selected users",
   "BlockTooltip": "Block selected users",
@@ -90,6 +91,7 @@
   "ShowInTable": "Show in table",
 
   "FillOutButton": "Fill Out Template",
+  "Comments": "Comments",
   "TemplateReadOnlyMessage": "You must be logged in to submit template. You're viewing it in read-only mode.",
   "SubmitAnswerButton": "Submit Answers",
   "UpdateAnswersButton": "Update Answers",
@@ -97,6 +99,12 @@
   "AnswerSubmitted": "Your answers have been submitted successfully!",
   "BackToMainButton": "Back to Main Page",
   "ViewTemplate": "View Template",
+  "LeaveComment": "Leave a Comment",
+  "ShareThoughtsPlaceholder": "Share your thoughts about this template...",
+  "PostComment": "Post Comment",
+  "NoComments": "No comments yet.",
+  "CommentPostSuccess": "Your comment has been posted successfully!",
+  "CommentPostFailed": "Failed to post comment. Please try again.",
 
   "Validation.Required": "This field is required",
   "Validation.Min": "Value must be greater than or equal to {{min}}",

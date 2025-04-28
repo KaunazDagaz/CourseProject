@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using static CourseProject.MappingProfile;
 using CourseProject.Errors;
 using CloudinaryDotNet;
+using CourseProject.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,7 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IFormService, FormService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<IAnswerService, AnswerService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 
 builder.Services.AddSingleton(provider => {
     var configuration = provider.GetRequiredService<IConfiguration>();
@@ -59,12 +61,13 @@ builder.Services.AddSingleton(provider => {
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -80,5 +83,6 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
+app.MapHub<CommentsHub>("/commentsHub");
 
 app.Run();
