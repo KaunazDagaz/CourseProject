@@ -60,6 +60,7 @@
   "DescriptionPlaceholder": "Enter template description (optional)",
   "Topic": "Topic",
   "TopicPlaceholder": "Enter template topic",
+  "TagsPlaceholder": "Click \"Enter\" after each tag to add it",
   "Image": "Image",
   "ImagePlaceholder": "Upload an image for your template (optional)",
   "MakePublic": "Make this template public",

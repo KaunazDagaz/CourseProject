@@ -89,8 +89,7 @@
             {
                 foreach (var tag in Model.Tags)
                 {
-                    <a asp-controller="Template" asp-action="Search" asp-route-tag="@tag.Name"
-                       class="badge rounded-pill text-bg-primary text-decoration-none m-1 p-2"
+                    <a class="badge rounded-pill text-bg-primary text-decoration-none m-1 p-2"
                        style="font-size: 1rem;">
                         @tag.Name
                     </a>

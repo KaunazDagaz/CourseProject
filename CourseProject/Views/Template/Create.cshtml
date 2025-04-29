@@ -12,7 +12,7 @@
                     <h4 class="mb-0" data-i18n="CreateTemplate">Create New Template</h4>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <form asp-action="Create" method="post" enctype="multipart/form-data" id="templateForm">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                         <div class="mb-3">
                             <label asp-for="Title" class="form-label" data-i18n="Title">Title</label>
@@ -31,6 +31,13 @@
                             <input asp-for="Topic" class="form-control" placeholder="Enter template topic"
                                    data-i18n-placeholder="TopicPlaceholder" />
                             <span asp-validation-for="Topic" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Tags" class="form-label" data-i18n="TagsTitle">Tags</label>
+                            <input id="tagInput" type="text" class="form-control" />
+                            <input asp-for="Tags" id="tagsHidden" type="hidden" />
+                            <small class="form-text text-muted" data-i18n="TagsPlaceholder"></small>
+                            <span asp-validation-for="Tags" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
                             <label asp-for="Image" class="form-label" data-i18n="Image">Image</label>
@@ -57,5 +64,6 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/tags.js"></script>
     <partial name="_ValidationScriptsPartial" />
 }

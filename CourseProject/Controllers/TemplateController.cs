@@ -13,14 +13,16 @@ namespace CourseProject.Controllers
         private readonly ITemplateService templateService;
         private readonly ICommentService commentService;
         private readonly ILikeService likeService;
+        private readonly ITagService tagService;
 
         public TemplateController(IUserValidationService userValidationService, ITemplateService templateService,
-            ICommentService commentService, ILikeService likeService)
+            ICommentService commentService, ILikeService likeService, ITagService tagService)
         {
             this.userValidationService = userValidationService;
             this.templateService = templateService;
             this.commentService = commentService;
             this.likeService = likeService;
+            this.tagService = tagService;
         }
 
         [HttpGet]
@@ -45,6 +47,14 @@ namespace CourseProject.Controllers
                     var userId = user!.Id;
                     var template = await templateService.CreateTemplateAsync(model, userId);
                     await templateService.SaveTemplateAsync(template);
+                    if (!string.IsNullOrEmpty(model.Tags))
+                    {
+                        var tagNames = model.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                                .Select(t => t.Trim())
+                                                .Where(t => !string.IsNullOrWhiteSpace(t))
+                                                .ToArray();
+                        await tagService.AddTagsToTemplateAsync(template.Id, tagNames);
+                    }
                     return RedirectToAction("Create", "Form", new { templateId = template.Id });
                 }
                 return View(model);
