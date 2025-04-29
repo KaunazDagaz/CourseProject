@@ -27,7 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\css\tagify\" />
     <Folder Include="wwwroot\lib\i18next\" />
+    <Folder Include="wwwroot\lib\tagify\" />
     <Folder Include="wwwroot\lib\signalr\" />
     <Folder Include="wwwroot\lib\sortablejs\" />
   </ItemGroup>

@@ -4,6 +4,8 @@ namespace CourseProject.Services.IServices
 {
     public interface ITagService
     {
-        List<Tag> GetAllTags();
+        Task<List<Tag>> SearchTagsAsync(string query, int limit = 5);
+        Task<List<Tag>> GetPopularTagsAsync(int limit = 20);
+        Task AddTagsToTemplateAsync(Guid templateId, IEnumerable<string> tagNames);
     }
 }

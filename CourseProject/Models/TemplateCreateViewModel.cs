@@ -12,5 +12,6 @@ namespace CourseProject.Models
         public IFormFile? Image { get; set; }
         [Required]
         public bool IsPublic { get; set; } = true;
+        public string? Tags { get; set; }
     }
 }

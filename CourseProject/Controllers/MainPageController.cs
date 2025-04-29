@@ -16,15 +16,14 @@ namespace CourseProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult MainPage()
+        public async Task<IActionResult> MainPage()
         {
             var viewModel = new MainPageViewModel
             {
                 LatestTemplates = templateService.GetLatestsTemplates(6),
                 PopularTemplates = templateService.GetPopularTemplates(6),
-                Tags = tagService.GetAllTags()
+                Tags = await tagService.GetPopularTagsAsync()
             };
-
             return View(viewModel);
         }
     }

@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@microsoft/signalr": "^8.0.7",
+    "@yaireo/tagify": "^4.35.0",
     "sortablejs": "^1.15.6"
   }
 }
