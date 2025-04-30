@@ -113,5 +113,15 @@
   "Validation.Min": "Значэнне павінна быць большым або роўным {{min}}",
   "Validation.Max": "Значэнне павінна быць меншым або роўным {{max}}",
   "Validation.Range": "Дапушчальны дыяпазон: {{min}} – {{max}}",
-  "Validation.Maxlength": "Тэкст павінен утрымліваць {{maxlength}} сімвалаў або менш"
+  "Validation.Maxlength": "Тэкст павінен утрымліваць {{maxlength}} сімвалаў або менш",
+
+  "SearchPlaceholder": "Пошук...",
+  "SearchTitle": "Пошук",
+  "IncludePrivate": "Уключыць прыватнае",
+  "Logout": "Выйсці",
+
+  "SearchResults": "Вынікі пошуку",
+  "NoTemplatesFound": "Шаблонаў, якія адпавядаюць вашым крытэрыям пошуку, не знойдзена.",
+  "ResultsFor": "Вынікі для: ",
+  "IncludePrivateMessage": "У тым ліку прыватныя шаблоны"
 }
