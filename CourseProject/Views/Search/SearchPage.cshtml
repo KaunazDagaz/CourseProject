@@ -1,0 +1,57 @@
+﻿@model IEnumerable<CourseProject.Models.TemplateGalleryViewModel>
+@{
+    ViewData["Title"] = "Search Results";
+}
+
+<div class="container">
+    <h1 class="mb-4" data-i18n="SearchResults">Search Results</h1>
+    @if (!Model.Any() && !string.IsNullOrEmpty(ViewBag.Query))
+    {
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>
+            <span data-i18n="NoTemplatesFound">No templates found matching your search criteria.</span>
+        </div>
+    }
+    else if (!string.IsNullOrEmpty(ViewBag.Query))
+    {
+        <div class="d-flex align-items-center mb-4">
+            <h5 class="mb-0 me-2">
+                <span data-i18n="ResultsFor">Results for:</span>
+                <span class="text-primary">@ViewBag.Query</span>
+            </h5>
+            @if (ViewBag.IncludePrivate)
+            {
+                <span class="badge bg-info ms-2" data-i18n="IncludePrivateMessage">Including private templates</span>
+            }
+        </div>
+    }
+    <div class="row">
+        @foreach (var template in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <a asp-controller="Template" asp-action="Template" asp-route-id="@template.Id" class="text-decoration-none text-body">
+                        @if (!string.IsNullOrEmpty(template.Image))
+                        {
+                            <img src="@template.Image" class="card-img-top" alt="@template.Title">
+                        }
+                        else
+                        {
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="bi bi-file-earmark-text" style="font-size: 3rem;"></i>
+                            </div>
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@template.Title</h5>
+                            <p class="card-text text-muted">By @template.AuthorName</p>
+                            @if (!string.IsNullOrEmpty(template.Description))
+                            {
+                                <p class="card-text">@(template.Description?.Length > 100 ? template.Description.Substring(0, 97) + "..." : template.Description)</p>
+                            }
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

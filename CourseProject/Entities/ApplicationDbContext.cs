@@ -109,6 +109,27 @@ namespace CourseProject.Entities
                 .WithOne()
                 .HasForeignKey<TemplateStats>(ts => ts.TemplateId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Template>()
+                .HasIndex(t => t.Title);
+            modelBuilder.Entity<Template>()
+                .HasIndex(t => t.Description);
+            modelBuilder.Entity<Template>()
+                .HasIndex(t => t.Topic);
+
+            modelBuilder.Entity<Question>()
+                .HasIndex(q => q.Title);
+            modelBuilder.Entity<Question>()
+                .HasIndex(q => q.Description);
+
+            modelBuilder.Entity<QuestionOption>()
+                .HasIndex(qo => qo.Text);
+
+            modelBuilder.Entity<Comment>()
+                .HasIndex(c => c.Content);
+
+            modelBuilder.Entity<Tag>()
+                .HasIndex(t => t.Name);
         }
     }
 }
