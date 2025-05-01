@@ -1,0 +1,104 @@
+﻿@model ProfileViewModel
+@{
+    ViewData["Title"] = "My Templates";
+}
+
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 data-i18n="MyTemplates">My Templates</h2>
+        <a asp-controller="Template" asp-action="Create" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>
+            <span data-i18n="CreateTemplate">Create Template</span>
+        </a>
+    </div>
+    <ul class="nav nav-tabs mb-4" id="templateTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="created-tab" data-bs-toggle="tab" data-bs-target="#created"
+                    type="button" role="tab" aria-controls="created" aria-selected="true">
+                <span data-i18n="TemplatesICreated">Templates I Created</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="filled-tab" data-bs-toggle="tab" data-bs-target="#filled"
+                    type="button" role="tab" aria-controls="filled" aria-selected="false">
+                <span data-i18n="TemplatesIFilled">Templates I Filled</span>
+            </button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTemplatesTabContent">
+        <div class="tab-pane fade show active" id="created" role="tabpanel" aria-labelledby="created-tab">
+            @if (Model.CreatedTemplates.Any())
+            {
+                <div class="table-responsive">
+                    <table id="createdTemplatesTable" class="table table-hover table-sm w-100">
+                        <thead>
+                            <tr>
+                                <th class="w-50" data-i18n="Title">Title</th>
+                                <th class="w-25" data-i18n="Author">Author</th>
+                                <th class="w-25" data-i18n="Created">Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var template in Model.CreatedTemplates)
+                            {
+                                <tr style="cursor: pointer;" onclick="location.href='@Url.Action("Template", "Template", new { id = template.Id })'">
+                                    <td class="text-truncate">@template.Title</td>
+                                    <td class="text-truncate">@template.AuthorName</td>
+                                    <td data-order="@template.CreatedAt.Ticks">@template.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <span data-i18n="NoCreatedTemplates">You haven't created any templates yet.</span>
+                    <a asp-controller="Template" asp-action="Create" class="alert-link">
+                        <span data-i18n="CreateFirst">Create your first template</span>
+                    </a>
+                </div>
+            }
+        </div>
+        <div class="tab-pane fade" id="filled" role="tabpanel" aria-labelledby="filled-tab">
+            @if (Model.FilledTemplates.Any())
+            {
+                <div class="table-responsive">
+                    <table id="filledTemplatesTable" class="table table-hover table-sm w-100">
+                        <thead>
+                            <tr>
+                                <th class="w-50" data-i18n="Title">Title</th>
+                                <th class="w-25" data-i18n="Author">Author</th>
+                                <th class="w-25" data-i18n="Created">Created</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var template in Model.FilledTemplates)
+                            {
+                                <tr style="cursor: pointer;" onclick="location.href='@Url.Action("Template", "Template", new { id = template.Id })'">
+                                    <td class="text-truncate">@template.Title</td>
+                                    <td class="text-truncate">@template.AuthorName</td>
+                                    <td data-order="@template.CreatedAt.Ticks">@template.CreatedAt.ToString("MMM dd, yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    <span data-i18n="NoFilledTemplates">You haven't filled out any templates yet.</span>
+                    <a asp-controller="MainPage" asp-action="MainPage" class="alert-link">
+                        <span data-i18n="DiscoverTemplates">Discover templates</span>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/templateTables.js"></script>
+}

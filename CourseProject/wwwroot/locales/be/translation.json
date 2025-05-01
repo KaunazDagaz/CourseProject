@@ -118,10 +118,19 @@
   "SearchPlaceholder": "Пошук...",
   "SearchTitle": "Пошук",
   "IncludePrivate": "Уключыць прыватнае",
+  "MyProfile": "Мой Профіль",
   "Logout": "Выйсці",
 
   "SearchResults": "Вынікі пошуку",
   "NoTemplatesFound": "Шаблонаў, якія адпавядаюць вашым крытэрыям пошуку, не знойдзена.",
   "ResultsFor": "Вынікі для: ",
-  "IncludePrivateMessage": "У тым ліку прыватныя шаблоны"
+  "IncludePrivateMessage": "У тым ліку прыватныя шаблоны",
+
+  "MyTemplates": "Мае шаблоны",
+  "TemplatesICreated": "Шаблоны, якія я стварыў",
+  "TemplatesIFilled": "Шаблоны, якія я запоўніў",
+  "NoCreatedTemplates": "Вы пакуль не стварылі ніякіх шаблонаў.",
+  "CreateFirst": "Стварыце свой першы шаблон",
+  "NoFilledTemplates": "Вы пакуль не запоўнілі ніякіх шаблонаў.",
+  "DiscoverTemplates": "Знайсці шаблоны"
 }
