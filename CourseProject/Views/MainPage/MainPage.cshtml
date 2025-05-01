@@ -91,7 +91,8 @@
             {
                 foreach (var tag in Model.Tags)
                 {
-                    <a class="badge rounded-pill text-bg-primary text-decoration-none m-1 p-2"
+                    <a asp-controller="Search" asp-action="SearchByTag" asp-route-tag="@tag.Name"
+                       class="badge rounded-pill text-bg-primary text-decoration-none m-1 p-2"
                        style="font-size: 1rem;">
                         @tag.Name
                     </a>

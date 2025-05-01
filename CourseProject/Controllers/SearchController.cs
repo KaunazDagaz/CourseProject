@@ -1,4 +1,5 @@
 ﻿using CourseProject.Models;
+using CourseProject.Services;
 using CourseProject.Services.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,17 @@ namespace CourseProject.Controllers
             var user = await userValidationService.GetCurrentUserAsync();
             var results = await searchService.SearchTemplatesAsync(query, includePrivate, user?.Id, limit, similarityThreshold);
             return View(results);
+        }
+        public async Task<IActionResult> SearchByTag(string tag)
+        {
+            if (string.IsNullOrEmpty(tag))
+                return RedirectToAction("MainPage", "MainPage");
+            var user = await userValidationService.GetCurrentUserAsync();
+            bool includePrivate = user != null;
+            var results = await searchService.SearchTemplatesAsync(tag, includePrivate, user?.Id);
+            ViewBag.Query = $"{tag}";
+            ViewBag.IncludePrivate = includePrivate;
+            return View("SearchPage", results);
         }
     }
 }
