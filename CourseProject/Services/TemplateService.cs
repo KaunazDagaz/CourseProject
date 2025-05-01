@@ -21,21 +21,19 @@ namespace CourseProject.Services
             this.mapper = mapper;
         }
 
-        public List<TemplateGalleryViewModel> GetLatestsTemplates(int count)
+        public async Task<List<TemplateGalleryViewModel>> GetLatestsTemplatesAsync(int count)
         {
-            var template = dbContext.Templates
-                .Where(t => t.IsPublic)
+            var template = await dbContext.Templates.Where(t => t.IsPublic)
                 .OrderByDescending(t => t.CreatedAt)
                 .Take(count)
-                .ToList();
+                .ToListAsync();
             var templateViewModels = mapper.Map<List<TemplateGalleryViewModel>>(template);
             return templateViewModels;
         }
 
-        public List<TemplateTableViewModel> GetPopularTemplates(int count)
+        public async Task<List<TemplateTableViewModel>> GetPopularTemplatesAsync(int count)
         {
-            var popularTemplates = dbContext.Templates
-                .Where(t => t.IsPublic)
+            var popularTemplates = await dbContext.Templates.Where(t => t.IsPublic)
                 .Join(dbContext.TemplateStats,
                     template => template.Id,
                     stats => stats.TemplateId,
@@ -43,7 +41,7 @@ namespace CourseProject.Services
                 .OrderByDescending(x => x.AnswersCount)
                 .Take(count)
                 .Select(x => x.Template)
-                .ToList();
+                .ToListAsync();
             var templateViewModels = mapper.Map<List<TemplateTableViewModel>>(popularTemplates);
             return templateViewModels;
         }
@@ -65,7 +63,7 @@ namespace CourseProject.Services
 
         public async Task SaveTemplateAsync(Template template)
         {
-            dbContext.Templates.Add(template);
+            await dbContext.Templates.AddAsync(template);
             await dbContext.SaveChangesAsync();
         }
 

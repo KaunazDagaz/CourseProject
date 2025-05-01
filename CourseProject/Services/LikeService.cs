@@ -58,8 +58,7 @@ namespace CourseProject.Services
 
         private async Task RemoveLikeAsync(Guid templateId, string userId)
         {
-            var existingLike = await dbContext.Likes
-                .FirstOrDefaultAsync(l => l.TemplateId == templateId && l.AuthorId == userId);
+            var existingLike = await dbContext.Likes.FirstOrDefaultAsync(l => l.TemplateId == templateId && l.AuthorId == userId);
             if (existingLike != null)
             {
                 dbContext.Likes.Remove(existingLike);

@@ -31,22 +31,25 @@ namespace CourseProject.Services
 
         public async Task<(bool success, Guid commentId, DateTime timestamp)> AddCommentAsync(CommentCreateViewModel model, string userId, string authorName)
         {
-            var comment = CreateComment(model, userId, authorName);
-            dbContext.Comments.Add(comment);
+            var comment = await CreateComment(model, userId, authorName);
+            await dbContext.Comments.AddAsync(comment);
             await dbContext.SaveChangesAsync();
             await NotifyClientsAsync(comment, authorName, "ReceiveComment");
             return (true, comment.Id, comment.CreatedAt);
         }
 
-        private Comment CreateComment(CommentCreateViewModel model, string userId, string authorName)
+        private async Task<Comment> CreateComment(CommentCreateViewModel model, string userId, string authorName)
         {
-            var comment = mapper.Map<Comment>(model);
-            var now = DateTime.UtcNow;
-            comment.Id = Guid.NewGuid();
-            comment.AuthorId = userId;
-            comment.AuthorName = authorName;
-            comment.CreatedAt = now;
-            return comment;
+            return await Task.Run(() =>
+            {
+                var comment = mapper.Map<Comment>(model);
+                var now = DateTime.UtcNow;
+                comment.Id = Guid.NewGuid();
+                comment.AuthorId = userId;
+                comment.AuthorName = authorName;
+                comment.CreatedAt = now;
+                return comment;
+            });
         }
 
         private async Task NotifyClientsAsync(Comment comment, string authorName, string methodName)

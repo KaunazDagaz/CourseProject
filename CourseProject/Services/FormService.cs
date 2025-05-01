@@ -22,17 +22,20 @@ namespace CourseProject.Services
             return await dbContext.Forms.ToListAsync();
         }
 
-        public Form CreateForm(Guid templateId, FormWithQuestionsViewModel formViewModel)
+        public async Task<Form> CreateForm(Guid templateId, FormWithQuestionsViewModel formViewModel)
         {
-            var form = mapper.Map<Form>(formViewModel);
-            form.Id = Guid.NewGuid();
-            form.TemplateId = templateId;
-            return form;
+            return await Task.Run(() =>
+            {
+                var form = mapper.Map<Form>(formViewModel);
+                form.Id = Guid.NewGuid();
+                form.TemplateId = templateId;
+                return form;
+            });
         }
 
         public async Task SaveFormAsync(Form form)
         {
-            dbContext.Forms.Add(form);
+            await dbContext.Forms.AddAsync(form);
             await dbContext.SaveChangesAsync();
         }
     }

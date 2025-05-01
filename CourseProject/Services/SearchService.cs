@@ -15,12 +15,8 @@ namespace CourseProject.Services
             this.dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<TemplateGalleryViewModel>> SearchTemplatesAsync(
-            string query,
-            bool includePrivate = false,
-            string? userId = null,
-            int limit = 50,
-            double similarityThreshold = 0.1)
+        public async Task<IEnumerable<TemplateGalleryViewModel>> SearchTemplatesAsync(string query, bool includePrivate = false,
+            string? userId = null, int limit = 50, double similarityThreshold = 0.1)
         {
             if (string.IsNullOrWhiteSpace(query))
                 return new List<TemplateGalleryViewModel>();
@@ -39,22 +35,15 @@ namespace CourseProject.Services
             results.AddRange(await SearchWithQueryAsync(connection, GetQuestionOptionSql(), query, includePrivate, userId, limit, similarityThreshold));
             results.AddRange(await SearchWithQueryAsync(connection, GetCommentSql(), query, includePrivate, userId, limit, similarityThreshold));
             results.AddRange(await SearchWithQueryAsync(connection, GetTagSql(), query, includePrivate, userId, limit, similarityThreshold));
-            return results
-                .GroupBy(t => t.Id)
+            return results.GroupBy(t => t.Id)
                 .Select(g => g.OrderByDescending(r => r.Score).First())
                 .OrderByDescending(t => t.Score)
                 .Take(limit)
                 .ToList();
         }
 
-        private async Task<List<TemplateGalleryViewModelWithScore>> SearchWithQueryAsync(
-            NpgsqlConnection connection,
-            string sql,
-            string query,
-            bool includePrivate,
-            string? userId,
-            int limit,
-            double similarityThreshold)
+        private async Task<List<TemplateGalleryViewModelWithScore>> SearchWithQueryAsync(NpgsqlConnection connection, string sql,
+            string query, bool includePrivate, string? userId, int limit, double similarityThreshold)
         {
             var results = new List<TemplateGalleryViewModelWithScore>();
             using (var cmd = new NpgsqlCommand(sql, connection))
