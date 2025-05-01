@@ -16,10 +16,7 @@ namespace CourseProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchPage(
-            string query,
-            bool includePrivate = false,
-            int limit = 50,
+        public async Task<IActionResult> SearchPage(string query, bool includePrivate = false, int limit = 50,
             double similarityThreshold = 0.1)
         {
             ViewBag.Query = query;
@@ -29,12 +26,7 @@ namespace CourseProject.Controllers
                 return View(new List<TemplateGalleryViewModel>());
             }
             var user = await userValidationService.GetCurrentUserAsync();
-            var results = await searchService.SearchTemplatesAsync(
-                query,
-                includePrivate,
-                user?.Id,
-                limit,
-                similarityThreshold);
+            var results = await searchService.SearchTemplatesAsync(query, includePrivate, user?.Id, limit, similarityThreshold);
             return View(results);
         }
     }

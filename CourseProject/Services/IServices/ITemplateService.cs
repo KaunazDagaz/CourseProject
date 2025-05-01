@@ -5,8 +5,8 @@ namespace CourseProject.Services.IServices
 {
     public interface ITemplateService
     {
-        List<TemplateGalleryViewModel> GetLatestsTemplates(int count);
-        List<TemplateTableViewModel> GetPopularTemplates(int count);
+        Task<List<TemplateGalleryViewModel>> GetLatestsTemplatesAsync(int count);
+        Task<List<TemplateTableViewModel>> GetPopularTemplatesAsync(int count);
         Task<Template> CreateTemplateAsync(TemplateCreateViewModel templateViewModel, string userId);
         Task SaveTemplateAsync(Template template);
         Task<TemplateViewModel> GetTemplateAsync(Guid id);

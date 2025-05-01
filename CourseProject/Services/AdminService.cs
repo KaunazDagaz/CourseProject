@@ -22,8 +22,7 @@ namespace CourseProject.Services
 
         public async Task<List<UserViewModel>> GetUsersAsync()
         {
-            var users = await dbContext.Users
-                .OrderByDescending(u => u.CreatedAt)
+            var users = await dbContext.Users.OrderByDescending(u => u.CreatedAt)
                 .ToListAsync();
             var userViewModels = mapper.Map<List<UserViewModel>>(users);
             return userViewModels;
@@ -31,22 +30,19 @@ namespace CourseProject.Services
 
         public async Task UpdateUserStatusAsync(List<string> userIds, bool status)
         {
-            await dbContext.Users
-                .Where(u => userIds.Contains(u.Id))
+            await dbContext.Users.Where(u => userIds.Contains(u.Id))
                 .ExecuteUpdateAsync(s => s.SetProperty(u => u.IsBlocked, status));
         }
 
         public async Task RemoveUserAsync(List<string> userIds)
         {
-            await dbContext.Users
-                .Where(u => userIds.Contains(u.Id))
+            await dbContext.Users.Where(u => userIds.Contains(u.Id))
                 .ExecuteDeleteAsync();
         }
 
         public async Task UpdateUserRoleAsync(List<string> userIds, string role)
         {
-            var users = await userManager.Users
-                .Where(u => userIds.Contains(u.Id))
+            var users = await userManager.Users.Where(u => userIds.Contains(u.Id))
                 .ToListAsync();
             await Task.WhenAll(users.Select(async user =>
             {

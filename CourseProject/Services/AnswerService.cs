@@ -59,7 +59,7 @@ namespace CourseProject.Services
 
         public async Task SaveAnswersAsync(List<AnswerSubmissionViewModel> answers, string userId)
         {
-            AddAnswerAsync(answers, userId);
+            await AddAnswerAsync(answers, userId);
             await UpdateTemplateStatsAsync(answers.First().FormId);
             await dbContext.SaveChangesAsync();
         }
@@ -86,11 +86,10 @@ namespace CourseProject.Services
             {
                 var options = await dbContext.AnswerOptions.Where(ao => ao.AnswerId == answer.Id)
                     .ToListAsync();
-
                 dbContext.AnswerOptions.RemoveRange(options);
             }
             dbContext.Answers.RemoveRange(existingAnswers);
-            AddAnswerAsync(answers, userId);
+            await AddAnswerAsync(answers, userId);
             await dbContext.SaveChangesAsync();
         }
 
@@ -135,31 +134,34 @@ namespace CourseProject.Services
             return mapper.Map<List<QuestionOptionViewModel>>(options);
         }
 
-        private void AddAnswerAsync(List<AnswerSubmissionViewModel> answers, string userId)
+        private async Task AddAnswerAsync(List<AnswerSubmissionViewModel> answers, string userId)
         {
             var now = DateTime.UtcNow;
             foreach (var answerModel in answers)
             {
-                var answer = CreateAnswer(answerModel, userId, now);
-                dbContext.Answers.Add(answer);
+                var answer = await CreateAnswerAsync(answerModel, userId, now);
+                await dbContext.Answers.AddAsync(answer);
                 if (answerModel.QuestionType == QuestionType.Checkbox && answerModel.SelectedOptions != null &&
                     answerModel.SelectedOptions.Any())
                 {
-                    CreateAnswerOptions(answer.Id, answerModel.SelectedOptions!);
+                    await CreateAnswerOptionsAsync(answer.Id, answerModel.SelectedOptions!);
                 }
             }
         }
 
-        private Answer CreateAnswer(AnswerSubmissionViewModel model, string userId, DateTime submittedAt)
+        private async Task<Answer> CreateAnswerAsync(AnswerSubmissionViewModel model, string userId, DateTime submittedAt)
         {
-            var answer = mapper.Map<Answer>(model);
-            answer.Id = Guid.NewGuid();
-            answer.AuthorId = userId;
-            answer.SubmittedAt = submittedAt;
-            return answer;
+            return await Task.Run(() =>
+            {
+                var answer = mapper.Map<Answer>(model);
+                answer.Id = Guid.NewGuid();
+                answer.AuthorId = userId;
+                answer.SubmittedAt = submittedAt;
+                return answer;
+            });
         }
 
-        private void CreateAnswerOptions(Guid answerId, List<Guid> optionIds)
+        private async Task CreateAnswerOptionsAsync(Guid answerId, List<Guid> optionIds)
         {
             foreach (var optionId in optionIds)
             {
@@ -169,7 +171,7 @@ namespace CourseProject.Services
                     AnswerId = answerId,
                     OptionId = optionId
                 };
-                dbContext.AnswerOptions.Add(answerOption);
+                await dbContext.AnswerOptions.AddAsync(answerOption);
             }
         }
 
@@ -181,7 +183,7 @@ namespace CourseProject.Services
             var stats = await dbContext.TemplateStats.FirstOrDefaultAsync(ts => ts.TemplateId == templateId);
             if (stats == null)
             {
-                CreateNewTemplateStats(templateId);
+                await CreateNewTemplateStats(templateId);
             }
             else
             {
@@ -190,7 +192,7 @@ namespace CourseProject.Services
             }
         }
 
-        private void CreateNewTemplateStats(Guid templateId)
+        private async Task CreateNewTemplateStats(Guid templateId)
         {
             var stats = new TemplateStats
             {
@@ -198,7 +200,7 @@ namespace CourseProject.Services
                 TemplateId = templateId,
                 AnswersCount = 1
             };
-            dbContext.TemplateStats.Add(stats);
+            await dbContext.TemplateStats.AddAsync(stats);
         }
     }
 }

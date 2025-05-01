@@ -31,9 +31,9 @@ namespace CourseProject.Controllers
             {
                 foreach (var formModel in forms)
                 {
-                    var form = formService.CreateForm(templateId, formModel);
+                    var form = await formService.CreateForm(templateId, formModel);
                     await formService.SaveFormAsync(form);
-                    var question = questionService.CreateQuestion(formModel.Question, form.Id);
+                    var question = await questionService.CreateQuestion(formModel.Question, form.Id);
                     await questionService.SaveQuestionAsync(question, formModel.Question.CheckboxOptions);
                 }
                 return RedirectToAction("MainPage", "MainPage");

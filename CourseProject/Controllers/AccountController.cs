@@ -54,7 +54,7 @@ namespace CourseProject.Controllers
                 {
                     return RedirectToAction("MainPage", "MainPage");
                 }
-                GetLoginErrorMessage(user);
+                await GetLoginErrorMessage(user);
             }
             return View(model);
         }
@@ -66,19 +66,22 @@ namespace CourseProject.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        private void GetLoginErrorMessage(User? user)
+        private async Task GetLoginErrorMessage(User? user)
         {
-            if (user == null)
+            await Task.Run(() =>
             {
-                ModelState.AddModelError("Email", "Error.UserNotExist");
-                return;
-            }
-            if (user.IsBlocked)
-            {
-                ModelState.AddModelError("Email", "Error.UserIsBlocked");
-                return;
-            }
-            ModelState.AddModelError("Password", "Error.SomeError");
+                if (user == null)
+                {
+                    ModelState.AddModelError("Email", "Error.UserNotExist");
+                    return;
+                }
+                if (user.IsBlocked)
+                {
+                    ModelState.AddModelError("Email", "Error.UserIsBlocked");
+                    return;
+                }
+                ModelState.AddModelError("Password", "Error.SomeError");
+            });        
         }
     }
 }

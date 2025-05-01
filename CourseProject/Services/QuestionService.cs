@@ -23,17 +23,20 @@ namespace CourseProject.Services
             return mapper.Map<QuestionViewModel>(question);
         }
 
-        public Question CreateQuestion(QuestionCreateViewModel questionViewModel, Guid formId)
+        public async Task<Question> CreateQuestion(QuestionCreateViewModel questionViewModel, Guid formId)
         {
-            var question = mapper.Map<Question>(questionViewModel);
-            question.Id = Guid.NewGuid();
-            question.FormId = formId;
-            return question;
+            return await Task.Run(() =>
+            {
+                var question = mapper.Map<Question>(questionViewModel);
+                question.Id = Guid.NewGuid();
+                question.FormId = formId;
+                return question;
+            });
         }
 
         public async Task SaveQuestionAsync(Question question, List<string>? checkboxOptions)
         {
-            dbContext.Questions.Add(question);
+            await dbContext.Questions.AddAsync(question);
             await dbContext.SaveChangesAsync();
             if (question.Type == QuestionType.Checkbox && checkboxOptions != null && checkboxOptions.Any())
             {
@@ -47,7 +50,7 @@ namespace CourseProject.Services
                         Text = optionText,
                         Position = position++
                     };
-                    dbContext.QuestionOptions.Add(option);
+                    await dbContext.QuestionOptions.AddAsync(option);
                 }
                 await dbContext.SaveChangesAsync();
             }

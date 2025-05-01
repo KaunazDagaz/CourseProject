@@ -20,8 +20,8 @@ namespace CourseProject.Controllers
         {
             var viewModel = new MainPageViewModel
             {
-                LatestTemplates = templateService.GetLatestsTemplates(6),
-                PopularTemplates = templateService.GetPopularTemplates(6),
+                LatestTemplates = await templateService.GetLatestsTemplatesAsync(6),
+                PopularTemplates = await templateService.GetPopularTemplatesAsync(6),
                 Tags = await tagService.GetPopularTagsAsync()
             };
             return View(viewModel);
