@@ -115,6 +115,7 @@
   "Validation.Range": "Allowed range: {{min}} – {{max}}",
   "Validation.Maxlength": "Text must be {{maxlength}} characters or fewer",
 
+  "MainPage": "To Main Page",
   "SearchPlaceholder": "Search...",
   "SearchTitle": "Search",
   "IncludePrivate": "Include private",
