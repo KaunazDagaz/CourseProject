@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
+    <header class="sticky-top">
         @await Html.PartialAsync("_Menu")
     </header>
     <div class="container">
@@ -29,6 +29,7 @@
     <script src="~/lib/sortablejs/Sortable.min.js"></script>
     <script src="~/lib/tagify/tagify.js"></script>
     <script src="~/lib/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/js/themeSwitcher.js"></script>
     <script src="~/js/dateTimeConverter.js"></script>
     <script src="~/js/commentHub.js"></script>
     <script src="~/js/i18Setup.js"></script>

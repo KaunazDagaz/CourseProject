@@ -31,16 +31,18 @@
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
                     <a asp-controller="Template" asp-action="Template" asp-route-id="@template.Id" class="text-decoration-none text-body">
-                        @if (!string.IsNullOrEmpty(template.Image))
-                        {
-                            <img src="@template.Image" class="card-img-top" alt="@template.Title">
-                        }
-                        else
-                        {
-                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                <i class="bi bi-file-earmark-text" style="font-size: 3rem;"></i>
-                            </div>
-                        }
+                        <div class="card-img-container" style="height: 200px; overflow: hidden;">
+                            @if (!string.IsNullOrEmpty(template.Image))
+                            {
+                                <img src="@template.Image" class="card-img-top" alt="@template.Title" style="width: 100%; height: 100%; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="bg-light d-flex align-items-center justify-content-center" style="width: 100%; height: 100%;">
+                                    <i class="bi bi-file-earmark-text" style="font-size: 3rem;"></i>
+                                </div>
+                            }
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">@template.Title</h5>
                             <p class="card-text text-muted">By @template.AuthorName</p>
