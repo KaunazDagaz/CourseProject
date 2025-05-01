@@ -4,6 +4,7 @@ using CloudinaryDotNet;
 using CourseProject.Entities;
 using CourseProject.Models;
 using CourseProject.Services.IServices;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseProject.Services
 {
@@ -72,6 +73,32 @@ namespace CourseProject.Services
         {
             var template = await dbContext.Templates.FindAsync(id);
             return mapper.Map<TemplateViewModel>(template);
+        }
+
+        public async Task<List<TemplateTableViewModel>> GetUserCreatedTemplatesAsync(string userId)
+        {
+            var templates = await dbContext.Templates.Where(t => t.AuthorId == userId)
+                .OrderByDescending(t => t.UpdatedAt)
+                .ToListAsync();
+            var templateViewModels = mapper.Map<List<TemplateTableViewModel>>(templates);
+            return templateViewModels;
+        }
+
+        public async Task<List<TemplateTableViewModel>> GetUserFilledTemplatesAsync(string userId)
+        {
+            var formIds = await dbContext.Answers.Where(a => a.AuthorId == userId)
+                .Select(a => a.FormId)
+                .Distinct()
+                .ToListAsync();
+            var templateIds = await dbContext.Forms.Where(f => formIds.Contains(f.Id))
+                .Select(f => f.TemplateId)
+                .Distinct()
+                .ToListAsync();
+            var templates = await dbContext.Templates.Where(t => templateIds.Contains(t.Id))
+                .OrderByDescending(t => t.UpdatedAt)
+                .ToListAsync();
+            var templateViewModels = mapper.Map<List<TemplateTableViewModel>>(templates);
+            return templateViewModels;
         }
 
         private async Task<string> UploadToCloudinaryAsync(IFormFile image)

@@ -118,10 +118,19 @@
   "SearchPlaceholder": "Search...",
   "SearchTitle": "Search",
   "IncludePrivate": "Include private",
+  "MyProfile": "My Profile",
   "Logout": "Logout",
 
   "SearchResults": "Search Results",
   "NoTemplatesFound": "No templates found matching your search criteria.",
   "ResultsFor": "Results For: ",
-  "IncludePrivateMessage": "Including private templates"
+  "IncludePrivateMessage": "Including private templates",
+
+  "MyTemplates": "My Templates",
+  "TemplatesICreated": "Templates I Created",
+  "TemplatesIFilled": "Templates I Filled",
+  "NoCreatedTemplates": "You haven't created any templates yet.",
+  "CreateFirst": "Create your first template",
+  "NoFilledTemplates": "You haven't filled out any templates yet.",
+  "DiscoverTemplates": "Discover templates"
 }
