@@ -34,4 +34,6 @@
     <Folder Include="wwwroot\lib\sortablejs\" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties wwwroot_4locales_4en_4translation_1json__JsonSchema="https://carafe.fm/schema/draft-02/bundle.schema.json" /></VisualStudio></ProjectExtensions>
+
 </Project>

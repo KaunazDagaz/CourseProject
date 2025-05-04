@@ -24,7 +24,7 @@
         <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarContent">
             <div class="d-flex flex-column flex-lg-row gap-2 mb-2 mb-lg-0">
                 <form id="cultureForm" class="w-100" onsubmit="return false;">
-                    <select id="cultureSelect" class="form-select" style="min-width: 130px;">
+                    <select id="cultureSelect" class="form-select" style="min-width: 170px;">
                         <option value="en" selected="@selectedEN">English</option>
                         <option value="be" selected="@selectedBE">Беларуская</option>
                     </select>
@@ -69,9 +69,18 @@
                         <form asp-controller="Account" asp-action="Logout" method="post">
                             <button type="submit" class="btn btn-outline-danger d-flex align-items-center" style="height: 38px;">
                                 <i class="fas fa-sign-out-alt me-2"></i>
-                                <span data-i18n="Logout">Logout</span>
+                                <span data-i18n="LogoutMenuButton">Logout</span>
                             </button>
                         </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center">
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary d-flex align-items-center" style="height: 38px;">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            <span data-i18n="LoginMenuButton">Login</span>
+                        </a>
                     </div>
                 }
             </div>

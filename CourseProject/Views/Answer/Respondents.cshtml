@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Template Respondents";
+    bool isAdmin = ViewBag.IsAdmin ?? false;
 }
 
 <div class="container py-5">
@@ -37,7 +38,7 @@
                         <tbody>
                             @foreach (var respondent in Model)
                             {
-                                <tr style="cursor: pointer;" onclick="location.href='@Url.Action("ViewUserResponses", new { templateId = ViewBag.TemplateId, userId = respondent.Id })'">
+                                <tr style="cursor: pointer;" onclick="location.href='@Url.Action(isAdmin ? "EditUserResponses" : "ViewUserResponses", new { templateId = ViewBag.TemplateId, userId = respondent.Id })'">
                                     <td>@respondent.Name</td>
                                     <td>@respondent.Email</td>
                                     <td>@respondent.SubmittedAt.ToString("g")</td>
