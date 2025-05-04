@@ -27,9 +27,7 @@ namespace CourseProject.Controllers
             {
                 var result = await accountService.RegisterUserAsync(model);
                 if (result.Succeeded)
-                {
                     return RedirectToAction("Login", "Account");
-                }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("Email", error.Description);
@@ -51,9 +49,7 @@ namespace CourseProject.Controllers
             {
                 var (result, user) = await accountService.LoginUserAsync(model);
                 if (result.Succeeded)
-                {
                     return RedirectToAction("MainPage", "MainPage");
-                }
                 await GetLoginErrorMessage(user);
             }
             return View(model);

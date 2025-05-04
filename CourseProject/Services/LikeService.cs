@@ -16,9 +16,7 @@ namespace CourseProject.Services
         public async Task<(bool success, bool userLiked)> ToggleLikeAsync(Guid templateId, string userId)
         {
             if (!await dbContext.Templates.AnyAsync(t => t.Id == templateId))
-            {
                 return (false, false);
-            }
             bool hasLiked = await HasUserLikedTemplateAsync(templateId, userId);
             if (!hasLiked)
             {

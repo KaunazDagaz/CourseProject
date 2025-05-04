@@ -48,9 +48,7 @@ namespace CourseProject.Services
         {
             var userId = httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
-            {
                 return null;
-            }
             return await dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
     }

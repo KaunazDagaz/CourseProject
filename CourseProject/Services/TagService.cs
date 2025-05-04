@@ -46,11 +46,8 @@ namespace CourseProject.Services
                     TemplateId = templateId,
                     TagId = tag.Id
                 };
-                if (!await dbContext.TemplateTags.AnyAsync(tt =>
-                    tt.TemplateId == templateId && tt.TagId == tag.Id))
-                {
+                if (!await dbContext.TemplateTags.AnyAsync(tt => tt.TemplateId == templateId && tt.TagId == tag.Id))
                     await dbContext.TemplateTags.AddAsync(templateTag);
-                }
             }
             await dbContext.SaveChangesAsync();
         }

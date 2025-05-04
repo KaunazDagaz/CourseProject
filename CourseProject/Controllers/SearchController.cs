@@ -23,9 +23,7 @@ namespace CourseProject.Controllers
             ViewBag.Query = query;
             ViewBag.IncludePrivate = includePrivate;
             if (string.IsNullOrWhiteSpace(query))
-            {
                 return View(new List<TemplateGalleryViewModel>());
-            }
             var user = await userValidationService.GetCurrentUserAsync();
             var results = await searchService.SearchTemplatesAsync(query, includePrivate, user?.Id, limit, similarityThreshold);
             return View(results);

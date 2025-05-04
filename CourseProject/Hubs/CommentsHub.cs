@@ -1,5 +1,4 @@
-﻿using CourseProject.Entities;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 
 namespace CourseProject.Hubs
 {

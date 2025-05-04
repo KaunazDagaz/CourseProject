@@ -48,11 +48,8 @@ namespace CourseProject.Services
                         QuestionType = form.Question.Type,
                         TextAnswer = answer.TextAnswer
                     };
-                    if (form.Question.Type == QuestionType.Checkbox &&
-                        answerOptions.TryGetValue(answer.Id, out var options))
-                    {
+                    if (form.Question.Type == QuestionType.Checkbox && answerOptions.TryGetValue(answer.Id, out var options))
                         form.Answer.SelectedOptions = options;
-                    }
                 }
             }
         }
@@ -130,9 +127,7 @@ namespace CourseProject.Services
             {
                 var formViewModel = await BuildFormSubmissionViewModelAsync(form);
                 if (formViewModel != null)
-                {
                     result.Add(formViewModel);
-                }
             }
             return result;
         }
@@ -140,16 +135,15 @@ namespace CourseProject.Services
         private async Task<FormSubmissionViewModel?> BuildFormSubmissionViewModelAsync(Form form)
         {
             var question = await dbContext.Questions.FirstOrDefaultAsync(q => q.FormId == form.Id);
-            if (question == null) return null;
+            if (question == null)
+                return null;
             var formViewModel = mapper.Map<FormSubmissionViewModel>(form);
             formViewModel.Question = mapper.Map<QuestionViewModel>(question);
             var answerViewModel = mapper.Map<AnswerSubmissionViewModel>(question);
             answerViewModel.FormId = form.Id;
             formViewModel.Answer = answerViewModel;
             if (question.Type == QuestionType.Checkbox)
-            {
                 formViewModel.Options = await GetQuestionOptionsAsync(question.Id);
-            }
             return formViewModel;
         }
 
@@ -170,9 +164,7 @@ namespace CourseProject.Services
                 await dbContext.Answers.AddAsync(answer);
                 if (answerModel.QuestionType == QuestionType.Checkbox && answerModel.SelectedOptions != null &&
                     answerModel.SelectedOptions.Any())
-                {
                     await CreateAnswerOptionsAsync(answer.Id, answerModel.SelectedOptions!);
-                }
             }
         }
 
@@ -209,9 +201,7 @@ namespace CourseProject.Services
                 .FirstOrDefaultAsync();
             var stats = await dbContext.TemplateStats.FirstOrDefaultAsync(ts => ts.TemplateId == templateId);
             if (stats == null)
-            {
                 await CreateNewTemplateStats(templateId);
-            }
             else
             {
                 stats.AnswersCount++;

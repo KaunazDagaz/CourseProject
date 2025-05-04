@@ -22,4 +22,12 @@ namespace CourseProject.Entities
         public DateTime UpdatedAt { get; set; }
     }
 
+    public class TemplateStats
+    {
+        [Key]
+        public Guid Id { get; set; }
+        public Guid TemplateId { get; set; }
+        public int AnswersCount { get; set; }
+
+    }
 }
