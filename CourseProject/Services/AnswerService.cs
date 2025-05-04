@@ -93,6 +93,33 @@ namespace CourseProject.Services
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<List<RespondentViewModel>> GetTemplateRespondentsAsync(Guid templateId)
+        {
+            var formIds = await dbContext.Forms.Where(f => f.TemplateId == templateId)
+                .Select(f => f.Id)
+                .ToListAsync();
+            return await dbContext.Answers.Where(a => formIds.Contains(a.FormId))
+                .GroupBy(a => a.AuthorId)
+                .Select(g => new
+                {
+                    Id = g.Key,
+                    g.First().SubmittedAt
+                })
+                .Join(
+                    dbContext.Users,
+                    r => r.Id,
+                    u => u.Id,
+                    (r, u) => new RespondentViewModel
+                    {
+                        Id = u.Id,
+                        Name = u.Name,
+                        Email = u.Email!,
+                        SubmittedAt = r.SubmittedAt
+                    })
+                .OrderByDescending(r => r.SubmittedAt)
+                .ToListAsync();
+        }
+
         private async Task<List<FormSubmissionViewModel>> BuildFormSubmissionViewModelsAsync(Guid templateId)
         {
             var result = new List<FormSubmissionViewModel>();

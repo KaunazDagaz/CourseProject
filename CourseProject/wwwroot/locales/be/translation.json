@@ -108,6 +108,8 @@
   "CommentPostFailed": "Не атрымалася апублікаваць каментарый. Калі ласка, паспрабуйце яшчэ раз.",
   "Like": "Падабаецца",
   "LikePostFailed": "Нешта пайшло не так. Паспрабуйце паставіць лайк яшчэ раз.",
+  "ViewRespondentsButton": "Праглядзець рэспандэнтаў",
+  "BackToRespondentsButton": "Вярнуцца да рэспандэнтаў",
 
   "Validation.Required": "Гэтае поле абавязковае для запаўнення",
   "Validation.Min": "Значэнне павінна быць большым або роўным {{min}}",
@@ -133,5 +135,11 @@
   "NoCreatedTemplates": "Вы пакуль не стварылі ніякіх шаблонаў.",
   "CreateFirst": "Стварыце свой першы шаблон",
   "NoFilledTemplates": "Вы пакуль не запоўнілі ніякіх шаблонаў.",
-  "DiscoverTemplates": "Знайсці шаблоны"
+  "DiscoverTemplates": "Знайсці шаблоны",
+
+  "RespondentsTitle": "Рэспандэнты",
+  "BackToTemplateButton": "Вярнуцца да шаблону",
+  "NoRespondents": "Пакуль што для гэтага шаблону не было адпраўлена ніякіх адказаў.",
+  "Respondent": "Рэспандэнт",
+  "SubmittedAt": "Адпраўлена ў"
 }

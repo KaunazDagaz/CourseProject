@@ -72,6 +72,7 @@ namespace CourseProject.Controllers
             {
                 var user = await userValidationService.GetCurrentUserAsync();
                 ViewBag.UserHasLiked = await likeService.HasUserLikedTemplateAsync(id, user!.Id);
+                ViewBag.CanManageTemplate = await userValidationService.CanManageTemplateAsync(id, user);
             }
             else
             {

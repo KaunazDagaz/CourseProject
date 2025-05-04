@@ -9,6 +9,6 @@ namespace CourseProject.Services.IServices
         Task SaveAnswersAsync(List<AnswerSubmissionViewModel> answers, string userId);
         Task<bool> HasAnsweredAsync(Guid templateId, string userId);
         Task UpdateAnswersAsync(List<AnswerSubmissionViewModel> answers, string userId);
-
+        Task<List<RespondentViewModel>> GetTemplateRespondentsAsync(Guid templateId);
     }
 }
