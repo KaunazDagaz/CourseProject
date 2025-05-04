@@ -122,7 +122,8 @@
   "SearchTitle": "Search",
   "IncludePrivate": "Include private",
   "MyProfile": "My Profile",
-  "Logout": "Logout",
+  "LogoutMenuButton": "Logout",
+  "LoginMenuButton": "Login",
 
   "SearchResults": "Search Results",
   "NoTemplatesFound": "No templates found matching your search criteria.",
@@ -141,5 +142,7 @@
   "BackToTemplateButton": "Back to Template",
   "NoRespondents": "No responses have been submitted for this template yet.",
   "Respondent": "Respondent",
-  "SubmittedAt": "Submitted At"
+  "SubmittedAt": "Submitted At",
+  "SaveChangesButton": "Save Changes",
+  "HiddenFormBadge": "Hidden Form"
 }

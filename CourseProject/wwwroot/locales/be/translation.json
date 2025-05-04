@@ -121,7 +121,8 @@
   "SearchTitle": "Пошук",
   "IncludePrivate": "Уключыць прыватнае",
   "MyProfile": "Мой Профіль",
-  "Logout": "Выйсці",
+  "LogoutMenuButton": "Выйсці",
+  "LoginMenuButton": "Увайсці",
 
   "MainPage": "На Галоўную",
   "SearchResults": "Вынікі пошуку",
@@ -141,5 +142,7 @@
   "BackToTemplateButton": "Вярнуцца да шаблону",
   "NoRespondents": "Пакуль што для гэтага шаблону не было адпраўлена ніякіх адказаў.",
   "Respondent": "Рэспандэнт",
-  "SubmittedAt": "Адпраўлена ў"
+  "SubmittedAt": "Адпраўлена ў",
+  "SaveChangesButton": "Захаваць змены",
+  "HiddenFormBadge": "Схаваная Форма"
 }

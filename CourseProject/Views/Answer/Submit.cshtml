@@ -1,9 +1,12 @@
 ﻿@model TemplateSubmissionViewModel
 @{
     ViewData["Title"] = Model.Title;
-    bool isReadOnly = !User.Identity!.IsAuthenticated || ViewBag.ForceReadOnly == true;
-    bool isEditMode = Model.HasPreviouslyAnswered;
+    bool isAdminEditMode = ViewBag.AdminEditMode == true;
+    bool isReadOnly = (!User.Identity!.IsAuthenticated || ViewBag.ForceReadOnly == true) && !isAdminEditMode;
+    bool isEditMode = Model.HasPreviouslyAnswered || isAdminEditMode;
+    bool forceReadOnly = ViewBag.ForceReadOnly ?? false;
     bool canManageTemplate = ViewBag.CanManageTemplate ?? false;
+    string userId = ViewBag.UserId ?? "";
 }
 
 <div class="container py-5">
@@ -11,7 +14,7 @@
         <div class="card-header bg-primary text-white">
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="mb-0">@Model.Title</h2>
-                @if (canManageTemplate)
+                @if (canManageTemplate && !isAdminEditMode)
                 {
                     <a asp-controller="Answer" asp-action="Respondents" asp-route-templateId="@Model.TemplateId" class="btn btn-outline-light">
                         <i class="fas fa-users me-1"></i>
@@ -21,7 +24,7 @@
             </div>
         </div>
         <div class="card-body">
-            @if (isReadOnly && ViewBag.ForceReadOnly != true)
+            @if (isReadOnly && forceReadOnly != true)
             {
                 <div class="alert alert-info mb-4">
                     <i class="bi bi-info-circle me-2"></i>
@@ -34,15 +37,19 @@
                     <p class="lead">@Model.Description</p>
                 </div>
             }
-            <form method="post">
+            <form method="post" action="@(isAdminEditMode ? Url.Action("UpdateUserResponses", new { templateId = Model.TemplateId, userId = userId }) : null)">
                 <input type="hidden" name="templateId" value="@Model.TemplateId" />
                 @for (int i = 0; i < Model.Forms.Count; i++)
                 {
                     var form = Model.Forms[i];
-                    <div class="card mb-4">
-                        <div class="card-header bg-light">
-                            <h5 class="mb-0">
+                    <div class="card mb-4 @(!form.ShowInTable && isAdminEditMode ? "bg-light border-warning" : "")">
+                        <div class="card-header @(!form.ShowInTable && isAdminEditMode ? "bg-warning-subtle text-dark" : "bg-light")">
+                            <h5 class="mb-0 d-flex justify-content-between align-items-center">
                                 <span data-i18n="FormNumber" data-i18n-options='{"number": @(i + 1)}'></span>
+                                @if (!form.ShowInTable && isAdminEditMode)
+                                {
+                                    <span class="badge bg-warning text-dark" data-i18n="HiddenFormBadge">Hidden Form</span>
+                                }
                             </h5>
                         </div>
                         <div class="card-body">
@@ -58,7 +65,8 @@
                                 @switch (form.Question.Type)
                                 {
                                     case CourseProject.Entities.QuestionType.SingleLine:
-                                        <input type="text" name="[@i].TextAnswer" class="form-control" required
+                                        <input type="text" name="[@i].TextAnswer" class="form-control"
+                                               required="@(form.ShowInTable || !isAdminEditMode)"
                                                value="@form.Answer.TextAnswer"
                                                maxlength="@(form.Question.MaxLength ?? int.MaxValue)"
                                         @(isReadOnly ? "disabled" : "") />
@@ -70,11 +78,13 @@
                                         }
                                         break;
                                     case CourseProject.Entities.QuestionType.MultiLine:
-                                        <textarea name="[@i].TextAnswer" class="form-control" rows="3" required
+                                        <textarea name="[@i].TextAnswer" class="form-control" rows="3"
+                                                  required="@(form.ShowInTable || !isAdminEditMode)"
                                         @(isReadOnly ? "disabled" : "")>@form.Answer.TextAnswer</textarea>
                                         break;
                                     case CourseProject.Entities.QuestionType.Integer:
-                                        <input type="number" name="[@i].TextAnswer" class="form-control" required
+                                        <input type="number" name="[@i].TextAnswer" class="form-control"
+                                               required="@(form.ShowInTable || !isAdminEditMode)"
                                                min="@(form.Question.MinValue ?? int.MinValue)"
                                                max="@(form.Question.MaxValue ?? int.MaxValue)"
                                                value="@form.Answer.TextAnswer"
@@ -125,12 +135,19 @@
                     </div>
                 }
                 <div class="d-flex justify-content-between">
-                    @if (ViewBag.ForceReadOnly && ViewBag.canManageTemplate)
+                    @if (forceReadOnly || isAdminEditMode)
                     {
                         <a href="@Url.Action("Respondents", new { templateId = Model.TemplateId })" class="btn btn-secondary">
                             <i class="fas fa-arrow-left me-1"></i>
                             <span data-i18n="BackToRespondentsButton">Back to Respondents</span>
                         </a>
+                        @if (isAdminEditMode)
+                        {
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-1"></i>
+                                <span data-i18n="SaveChangesButton">Save Changes</span>
+                            </button>
+                        }
                     }
                     else
                     {

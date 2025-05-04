@@ -85,6 +85,7 @@ namespace CourseProject.Controllers
                     return Forbid();
                 var respondents = await answerService.GetTemplateRespondentsAsync(templateId);
                 ViewBag.TemplateId = templateId;
+                ViewBag.IsAdmin = await userValidationService.IsCurrentUserAdminAsync();
                 return View(respondents);
             });
         }
@@ -108,10 +109,48 @@ namespace CourseProject.Controllers
             });
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> EditUserResponses(Guid templateId, string userId)
+        {
+            return await HandleAdminActionAsync(async () =>
+            {
+                var model = await answerService.GetTemplateForSubmissionAsync(templateId);
+                if (model == null)
+                    return NotFound();
+                await answerService.LoadPreviousAnswersAsync(model.Forms, userId);
+                ViewBag.CanManageTemplate = true;
+                ViewBag.AdminEditMode = true;
+                ViewBag.UserId = userId;
+                return View("Submit", model);
+            });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserResponses(Guid templateId, string userId, List<AnswerSubmissionViewModel> answers)
+        {
+            return await HandleAdminActionAsync(async () =>
+            {
+                await answerService.UpdateAnswersAsync(answers, userId);
+                return RedirectToAction("Respondents", new { templateId });
+            });
+        }
+
 
         private async Task<IActionResult> HandleUserActionAsync(Func<Task<IActionResult>> action)
         {
             if (!await userValidationService.IsCurrentUserValidAsync())
+            {
+                await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+                return Json(new { success = false, redirectUrl = Url.Action("Login", "Account") });
+            }
+            return await action();
+        }
+
+        private async Task<IActionResult> HandleAdminActionAsync(Func<Task<IActionResult>> action)
+        {
+            if (!await userValidationService.IsCurrentUserAdminAsync())
             {
                 await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
                 return Json(new { success = false, redirectUrl = Url.Action("Login", "Account") });
