@@ -1,0 +1,52 @@
+﻿@model List<RespondentViewModel>
+
+@{
+    ViewData["Title"] = "Template Respondents";
+}
+
+<div class="container py-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-0" data-i18n="RespondentsTitle">Respondents</h2>
+                <a href="@Url.Action("Template", "Template", new { id = ViewBag.TemplateId })" class="btn btn-outline-light">
+                    <i class="bi bi-arrow-left me-1"></i>
+                    <span data-i18n="BackToTemplateButton">Back to Template</span>
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            @if (Model.Count == 0)
+            {
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i>
+                    <span data-i18n="NoRespondents">No responses have been submitted for this template yet.</span>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th data-i18n="Respondent">Respondent</th>
+                                <th data-i18n="Email">Email</th>
+                                <th data-i18n="SubmittedAt">Submitted At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var respondent in Model)
+                            {
+                                <tr style="cursor: pointer;" onclick="location.href='@Url.Action("ViewUserResponses", new { templateId = ViewBag.TemplateId, userId = respondent.Id })'">
+                                    <td>@respondent.Name</td>
+                                    <td>@respondent.Email</td>
+                                    <td>@respondent.SubmittedAt.ToString("g")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

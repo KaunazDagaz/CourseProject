@@ -41,6 +41,7 @@ namespace CourseProject.Controllers
                 {
                     await answerService.LoadPreviousAnswersAsync(model.Forms, userId);
                 }
+                ViewBag.CanManageTemplate = await userValidationService.CanManageTemplateAsync(templateId, user);
             }
             return View(model);
         }
@@ -82,6 +83,41 @@ namespace CourseProject.Controllers
             }
             return View();
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Respondents(Guid templateId)
+        {
+            return await HandleUserActionAsync(async () =>
+            {
+                var user = await userValidationService.GetCurrentUserAsync();
+                if (!await userValidationService.CanManageTemplateAsync(templateId, user!))
+                    return Forbid();
+                var respondents = await answerService.GetTemplateRespondentsAsync(templateId);
+                ViewBag.TemplateId = templateId;
+                return View(respondents);
+            });
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> ViewUserResponses(Guid templateId, string userId)
+        {
+            return await HandleUserActionAsync(async () =>
+            {
+                var user = await userValidationService.GetCurrentUserAsync();
+                if (!await userValidationService.CanManageTemplateAsync(templateId, user!))
+                    return Forbid();
+                var model = await answerService.GetTemplateForSubmissionAsync(templateId);
+                if (model == null)
+                    return NotFound();
+                await answerService.LoadPreviousAnswersAsync(model.Forms, userId);
+                ViewBag.ForceReadOnly = true;
+                ViewBag.CanManageTemplate = true;
+                return View("Submit", model);
+            });
+        }
+
 
         private async Task<IActionResult> HandleUserActionAsync(Func<Task<IActionResult>> action)
         {

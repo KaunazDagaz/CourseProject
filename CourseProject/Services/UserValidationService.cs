@@ -38,6 +38,12 @@ namespace CourseProject.Services
             return currentUser != null && userIds.Contains(currentUser.Id);
         }
 
+        public async Task<bool> CanManageTemplateAsync(Guid templateId, User user)
+        {
+            var template = await dbContext.Templates.FirstOrDefaultAsync(t => t.Id == templateId);
+            return template != null && (template.AuthorId == user.Id || await userManager.IsInRoleAsync(user, "Administrator"));
+        }
+
         public async Task<User?> GetCurrentUserAsync()
         {
             var userId = httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = Model.Title;
     bool isReadOnly = !User.Identity!.IsAuthenticated;
+    bool canManageTemplate = ViewBag.CanManageTemplate ?? false;
 }
 
 <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 11">
@@ -65,6 +66,13 @@
                         <i class="fas fa-file-alt me-2"></i>
                         <span data-i18n="FillOutButton">Fill Out Template</span>
                     </a>
+                    @if (canManageTemplate)
+                    {
+                        <a asp-controller="Answer" asp-action="Respondents" asp-route-templateId="@Model.Id" class="btn btn-success btn-lg">
+                            <i class="fas fa-users me-2"></i>
+                            <span data-i18n="ViewRespondentsButton">View Respondents</span>
+                        </a>
+                    }
                 </div>
             </div>
         </div>
