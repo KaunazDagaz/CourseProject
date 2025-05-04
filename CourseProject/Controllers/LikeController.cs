@@ -27,9 +27,7 @@ namespace CourseProject.Controllers
                 string userId = user!.Id;
                 var result = await likeService.ToggleLikeAsync(templateId, userId);
                 if (!result.success)
-                {
                     return NotFound();
-                }
                 return Json(new
                 {
                     result.success,

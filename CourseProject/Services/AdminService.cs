@@ -49,9 +49,7 @@ namespace CourseProject.Services
                 var currentRoles = await userManager.GetRolesAsync(user);
                 await userManager.RemoveFromRolesAsync(user, currentRoles);
                 if (!string.IsNullOrEmpty(role))
-                {
                     await userManager.AddToRoleAsync(user, role);
-                }
             }
         }
     }

@@ -75,9 +75,7 @@ namespace CourseProject.Controllers
                 ViewBag.CanManageTemplate = await userValidationService.CanManageTemplateAsync(id, user);
             }
             else
-            {
                 ViewBag.UserHasLiked = false;
-            }
             return View(templateViewModel);
         }
 

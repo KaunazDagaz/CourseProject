@@ -33,9 +33,7 @@ namespace CourseProject.Services
         {
             var user = await userManager.FindByEmailAsync(model.Email);
             if (user != null && user.IsBlocked)
-            {
                 return (SignInResult.Failed, user);
-            }
             var result = await signInManager.PasswordSignInAsync(
                 model.Email,
                 model.Password,
@@ -51,12 +49,12 @@ namespace CourseProject.Services
 
         private async Task AddAdminRole(User user)
         {
-            var r = await roleManager.FindByNameAsync("Administrator");
-            if (r == null)
+            var role = await roleManager.FindByNameAsync("Administrator");
+            if (role == null)
             {
-                var role = new IdentityRole();
-                role.Name = "Administrator";
-                await roleManager.CreateAsync(role);
+                var newRole = new IdentityRole();
+                newRole.Name = "Administrator";
+                await roleManager.CreateAsync(newRole);
                 await userManager.AddToRoleAsync(user, "Administrator");
             }
         }

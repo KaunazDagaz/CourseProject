@@ -28,9 +28,7 @@ namespace CourseProject.Controllers
         {
             var model = await answerService.GetTemplateForSubmissionAsync(templateId);
             if (model == null)
-            {
                 return NotFound();
-            }
             model.Forms = model.Forms.Where(f => f.ShowInTable).ToList();
             var user = await userValidationService.GetCurrentUserAsync();
             if (user != null)
@@ -38,9 +36,7 @@ namespace CourseProject.Controllers
                 string userId = user.Id;
                 model.HasPreviouslyAnswered = await answerService.HasAnsweredAsync(templateId, userId);
                 if (model.HasPreviouslyAnswered)
-                {
                     await answerService.LoadPreviousAnswersAsync(model.Forms, userId);
-                }
                 ViewBag.CanManageTemplate = await userValidationService.CanManageTemplateAsync(templateId, user);
             }
             return View(model);
@@ -55,13 +51,9 @@ namespace CourseProject.Controllers
                 var user = await userValidationService.GetCurrentUserAsync();
                 bool hasAnswered = await answerService.HasAnsweredAsync(templateId, user!.Id);
                 if (hasAnswered)
-                {
                     await answerService.UpdateAnswersAsync(answers, user.Id);
-                }
                 else
-                {
                     await answerService.SaveAnswersAsync(answers, user.Id);
-                }
                 return RedirectToAction("ThankYou", new { templateId });
             });          
         }
@@ -78,9 +70,7 @@ namespace CourseProject.Controllers
                 ViewBag.UserHasLiked = await likeService.HasUserLikedTemplateAsync(templateId, user!.Id);
             }
             else
-            {
                 ViewBag.UserHasLiked = false;
-            }
             return View();
         }
 
