@@ -57,18 +57,18 @@
                 </div>
             </div>
             <div class="text-center mt-4">
-                <div class="d-flex justify-content-center gap-3">
-                    <a asp-controller="MainPage" asp-action="MainPage" class="btn btn-secondary btn-lg">
+                <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 gap-sm-3">
+                    <a asp-controller="MainPage" asp-action="MainPage" class="btn btn-secondary mb-2 mb-sm-0">
                         <i class="fas fa-home me-2"></i>
                         <span data-i18n="BackToMainButton">Back to Main Page</span>
                     </a>
-                    <a asp-controller="Answer" asp-action="Submit" asp-route-templateId="@Model.Id" class="btn btn-primary btn-lg">
+                    <a asp-controller="Answer" asp-action="Submit" asp-route-templateId="@Model.Id" class="btn btn-primary mb-2 mb-sm-0">
                         <i class="fas fa-file-alt me-2"></i>
                         <span data-i18n="FillOutButton">Fill Out Template</span>
                     </a>
                     @if (canManageTemplate)
                     {
-                        <a asp-controller="Answer" asp-action="Respondents" asp-route-templateId="@Model.Id" class="btn btn-success btn-lg">
+                        <a asp-controller="Answer" asp-action="Respondents" asp-route-templateId="@Model.Id" class="btn btn-success">
                             <i class="fas fa-users me-2"></i>
                             <span data-i18n="ViewRespondentsButton">View Respondents</span>
                         </a>

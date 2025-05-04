@@ -124,6 +124,7 @@
   "MyProfile": "My Profile",
   "LogoutMenuButton": "Logout",
   "LoginMenuButton": "Login",
+  "UsersManagement": "Manage Users",
 
   "SearchResults": "Search Results",
   "NoTemplatesFound": "No templates found matching your search criteria.",

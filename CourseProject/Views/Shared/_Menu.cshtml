@@ -5,12 +5,12 @@
     var selectedBE = currentLang == "be" ? "selected" : null;
 }
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow mb-3">
+<nav class="navbar navbar-expand-xxl navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container-fluid">
-        <a asp-controller="MainPage" asp-action="MainPage" class="btn btn-primary me-lg-2" data-i18n="MainPage">To Main Page</a>
+        <a asp-controller="MainPage" asp-action="MainPage" class="btn btn-primary me-xxl-3" data-i18n="MainPage">To Main Page</a>
         @if (User.Identity?.IsAuthenticated == true)
         {
-            <a asp-controller="Profile" asp-action="Profile" class="btn btn-outline-primary d-flex d-lg-none justify-content-center align-items-center ms-auto me-2"
+            <a asp-controller="Profile" asp-action="Profile" class="btn btn-outline-primary d-flex d-xxl-none justify-content-center align-items-center ms-auto me-2"
                style="aspect-ratio: 1/1; padding: 0.375rem 0.75rem; height: 38px;"
                title="My Profile" data-i18n-title="MyProfile">
                 <i class="fas fa-user fs-5"></i>
@@ -21,8 +21,8 @@
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse mt-3 mt-lg-0" id="navbarContent">
-            <div class="d-flex flex-column flex-lg-row gap-2 mb-2 mb-lg-0">
+        <div class="collapse navbar-collapse mt-3 mt-xxl-0" id="navbarContent">
+            <div class="d-flex flex-column flex-xxl-row gap-2 mb-2 mb-xxl-0 me-xxl-3">
                 <form id="cultureForm" class="w-100" onsubmit="return false;">
                     <select id="cultureSelect" class="form-select" style="min-width: 170px;">
                         <option value="en" selected="@selectedEN">English</option>
@@ -34,9 +34,9 @@
                     <option value="solar">Solar</option>
                 </select>
             </div>
-            <div class="d-flex flex-column flex-lg-row ms-lg-auto mt-3 mt-lg-0 gap-3 align-items-center">
+            <div class="d-flex flex-column flex-xxl-row ms-xxl-auto mt-3 mt-xxl-0 gap-3 align-items-center">
                 <form asp-controller="Search" asp-action="SearchPage" method="get"
-                      class="d-flex">
+                      class="d-flex me-xxl-3">
                     <div class="input-group">
                         <input type="text" name="query" class="form-control"
                                placeholder="Search..." data-i18n-placeholder="SearchPlaceholder"
@@ -61,11 +61,18 @@
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     <div class="d-flex align-items-center gap-2">
-                        <a asp-controller="Profile" asp-action="Profile" class="btn btn-outline-primary d-none d-lg-flex justify-content-center align-items-center"
+                        <a asp-controller="Profile" asp-action="Profile" class="btn btn-outline-primary d-none d-xxl-flex justify-content-center align-items-center"
                            style="aspect-ratio: 1/1; padding: 0.375rem 0.75rem; height: 38px;"
                            title="My Profile" data-i18n-title="MyProfile">
                             <i class="fas fa-user fs-5"></i>
                         </a>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <a asp-controller="Admin" asp-action="Users" class="btn btn-outline-secondary d-flex align-items-center" style="height: 38px;">
+                                <i class="fas fa-users-cog me-2"></i>
+                                <span data-i18n="UsersManagement">Manage Users</span>
+                            </a>
+                        }
                         <form asp-controller="Account" asp-action="Logout" method="post">
                             <button type="submit" class="btn btn-outline-danger d-flex align-items-center" style="height: 38px;">
                                 <i class="fas fa-sign-out-alt me-2"></i>
