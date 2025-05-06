@@ -36,20 +36,6 @@
         return this;
     }
 
-    joinTemplateGroup() {
-        if (this.connection && this.connection.state === "Connected" && this.templateId) {
-            return this.connection.invoke("JoinTemplateGroup", this.templateId);
-        }
-        return Promise.resolve();
-    }
-
-    leaveTemplateGroup() {
-        if (this.connection && this.connection.state === "Connected" && this.templateId) {
-            return this.connection.invoke("LeaveTemplateGroup", this.templateId);
-        }
-        return Promise.resolve();
-    }
-
     handleReceiveComment(commentId, authorName, content, timestamp) {
         const commentHtml = `
             <div class="card mb-3" id="comment-${commentId}">
